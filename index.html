@@ -12,13 +12,6 @@
         <meta property="og:image" content="https://phyworld.github.io/static/img/preview.png" />
         <meta property="og:title" content="How Far is Video Generation from World Model: A Physical Law Perspective" />
         <meta property="og:description" content="We conduct a systematic study to investigate whether video generation is able to learn physical laws from videos, leveraging data and model scaling." />
-        
-        <!-- Twitter -->
-        <meta name="twitter:url" content="https://phyworld.github.io/" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:image" content="https://phyworld.github.io/static/img/preview.png" />
-        <meta name="twitter:title" content="How Far is Video Generation from World Model: A Physical Law Perspective" />
-        <meta name="twitter:description" content="We conduct a systematic study to investigate whether video generation is able to learn physical laws from videos, leveraging data and model scaling." />
 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
         <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.js" integrity="sha384-9Nhn55MVVN0/4OFx7EE5kpFBPsEMZxKTCnA+4fqDmg12eCTqGi6+BB2LjY8brQxJ" crossorigin="anonymous"></script>
@@ -78,992 +71,640 @@
                 column-width: 250px;
                 column-gap: 20px;
             }
-        </style>
-    </head>
-    <body>
-        <div class="header-wrapper">
-            <div class="header-container" id="header-container">
-                <div class="header-content">
-                    <h1 style="margin-top: 0px; font-size: xxx-large;">How Far is Video Generation from World Model?</h1>
-                    <h2 style="margin-top: 0px"><i>&mdash; A Physical Law Perspective</i></h2>
-                    <p>
-                        We conduct a systematic study to investigate whether video generation is able to learn physical laws from videos, leveraging  <em><strong>data and model scaling</strong></em>.
-                    </p>
-                    
-                    <div class="icon-container">
-                        <div class="icon-item">
-                            <img src="static/icon/cats.svg" alt="Generalization Scenario Icon">
-                            <div><strong>Generalization Scenarios</strong>: We consider three scenarios: in-distribution, out-of-distribution and combinatorial generalization.</div>
-                        </div>
-                        <div class="icon-item">
-                            <img src="./static/icon/task.svg" alt="Task Icon">
-                            <div><strong>Tasks</strong>: We consider physical events governed by one or more classical mechanics laws, e.g., <i>law of inertia</i>, <i>Newton's second law</i> and <i> the conservation of energy</i>.</div>
-                        </div>
-                        <div class="icon-item">
-                            <img src="./static/icon/data.svg" alt="Data">
-                            <div><strong>Data</strong>: We develop a 2D simulator with simple geometric shapes (eliminating textures), ensuring unlimited supply of data for scaling.</div>
-                        </div>
-                        <div class="icon-item">
-                            <img src="./static/icon/model.svg" alt="Model">
-                            <div><strong>Model</strong>: We use standard video generation model and focus on scaling-up.</div>
-                        </div>
-                        <div class="icon-item">
-                            <img src="./static/icon/keys.svg" alt="Messages">
-                            <div><strong>Key Messages</strong>: 
-                                We first summarize the <strong><i>generalization observations</i></strong> of video models,
-                                then analyze their underlying <strong><i>generalization mechanism</i></strong> and <strong><i>priority</i></strong>.
-                            </div>
-                        </div>
-                        <div class="icon-item">
-                            <img src="./static/icon/discussion.svg" alt="Discussion">
-                            <div><strong>Community</strong>:
-                                <a href="#twitter"> Click to view the lively discussions within the community.</a>
-                            </div>
-                        </div>
-                    </div>
+            .table-container {
+                margin: 20px 0;
+                overflow-x: auto;
+            }
+            
+            .table-container table {
+                border-collapse: collapse;
+                width: 100%;
+                font-size: 0.9em;
+            }
+            
+            .table-container th, .table-container td {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: center;
+            }
+            
+            .table-container th {
+                background-color: #f5f5f5;
+                font-weight: bold;
+            }
+            
+            .table-container tr:hover {
+                background-color: #f5f5f5;
+            }
+            
+            .table-container caption {
+                margin-bottom: 10px;
+                text-align: left;
+                font-weight: bold;
+            }
 
-                    <div class="button-container", style="text-align: center;">
-                        <a href="https://arxiv.org/abs/2411.02385" class="button paper-link" target="_blank">
-                            <span class="icon is-small">
-                                <i class="ai ai-arxiv"></i>
-                            </span>
-                            arXiv
-                        </a>
-                        <a href="https://arxiv.org/pdf/2411.02385" class="button paper-link" target="_blank">
-                            <span class="icon is-small">
-                                <i class="fas fa-file-pdf"></i>
-                            </span>
-                            <span>pdf</span>
-                        </a>
-                        <a href="https://github.com/phyworld/phyworld" class="button" target="_blank">
-                            <span class="icon is-small">
-                                <i class="fab fa-github"></i>
-                            </span>
-                            <span>Code</span>
-                        </a>
-                        <!-- <a href="https://huggingface.co/" class="button" target="_blank">
-                            <span class="icon is-small">
-                                <img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" alt="Hugging Face logo" style="height: 1em;">
-                            </span>
-                            <span>Models (Soon)</span>
-                        </a> -->
-                        <a href="https://huggingface.co/datasets/magicr/phyworld" class="button" target="_blank">
-                            <span class="icon is-small">
-                                <img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" alt="Hugging Face logo" style="height: 1em;">
-                            </span>
-                            <span>Data</span>
-                        </a>                        
-                    </div>
+            .data-table {
+                width: 100%;
+                border-collapse: collapse;
+                margin: 20px 0;
+            }
+
+            .data-table th,
+            .data-table td {
+                padding: 12px 15px;
+                border: 1px solid #ddd;
+                text-align: center;
+            }
+
+            .data-table th {
+                background-color: #f5f5f5;
+                font-weight: bold;
+            }
+
+            .data-table tr:hover {
+                background-color: #f5f5f5;
+            }
+        </style>
+        </head>
+        <body>
+            <div class="header-wrapper">
+                <div class="header-container" id="header-container">
+                    <div class="header-content">
+                        <h1 style="margin-top: 0px; font-size: xxx-large;">LangBridge</h1>
+                        <h2 style="margin-top: 0px; font-size: xx-large;">Interpreting Image as a Combination</h2>
+                        <h2 style="margin-top: 0px; font-size: xx-large;">of Language Embeddings</h2>
+                        <h2 style="margin-top: 0px"><i>&mdash; A Novel Adapter for Vision-Language Alignment</i></h2>
+                        <p>
+                            We propose LangBridge, an interpretable vision-language adapter that grounds visual semantics in LLM language priors through linear combinations of vocabulary embeddings. Our contributions can be summarized as follows:
+                        </p>
+                        <div class="contributions">
+                            <div class="contribution-item">
+                                <h3>🔍 Explainable Analysis for Visual-Language Alignment</h3>
+                                <p>We provide a systematic study of the learning process of MLP adapters in Visual-Language alignment.</p>
+                            </div>
+                            <div class="contribution-item">
+                                <h3>🔧 Novel Adapter</h3>
+                                <p>We introduce LangBridge, a novel adapter that transforms the visual features into visual embeddings by decomposing them into linear combinations of the LLM's vocabulary embeddings.</p>
+                            </div>
+                            <div class="contribution-item">
+                                <h3>🔄 Pretraining-Free Transfer</h3>
+                                <p>LangBridge enables pre-training-free reuse between different large language models, significantly reducing the cost of pretraining.</p>
+                            </div>
+                        </div>
+                        
+
+    
+                        <div class="button-container", style="text-align: center;">
+                            <a href="https://arxiv.org/abs/[YourPaperID]" class="button paper-link" target="_blank">
+                                <span class="icon is-small">
+                                    <i class="ai ai-arxiv"></i>
+                                </span>
+                                arXiv
+                            </a>
+                            <a href="https://arxiv.org/pdf/[YourPaperID].pdf" class="button paper-link" target="_blank">
+                                <span class="icon is-small">
+                                    <i class="fas fa-file-pdf"></i>
+                                </span>
+                                <span>PDF</span>
+                            </a>
+                            <a href="https://github.com/OpenGVLab/LangBridge" class="button" target="_blank">
+                                <span class="icon is-small">
+                                    <i class="fab fa-github"></i>
+                                </span>
+                                <span>Code</span>
+                            </a>
+                            <a href="https://huggingface.co/datasets/OpenGVLab/LLaVA-CC3M-Pretrain" class="button" target="_blank">
+                                <span class="icon is-small">
+                                    <img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" alt="Hugging Face" style="height: 1em;">
+                                </span>
+                                <span>Weight</span>
+                            </a>                        
+                        </div>
+
 
                 </div>
                 <div class="header-image">
-                    <img draggable="false" src="static/image/horizontal_margin.jpeg" class="teaser-image">
-
-                    <video  poster="" id="ade" autoplay controls muted loop width="100%" class="no-controls">
-                        <source src="static/video/teaser2x.mp4" type="video/mp4">
-                    </video>
-                    <img draggable="false" src="static/image/horizontal_margin.jpeg" class="teaser-image">
-
+                    <img draggable="false" src="static/image/LangBridge_icon.jpg" class="teaser-image" width="100%">
                 </div>
             </div>
         </div>
-
-    <!-- <p></p>
-    <br>
-    <p class="text abstract">
-    <h1 style="text-align: center;">How Far is Video Generation from World Model?</h1>
-    <h1 style="text-align: center;"><i>&mdash; A Physical Law Perspective</i></h1>
-    </p>
-        <div class="byline-container">
-            <p>
-                <a href="https://bingykang.github.io/" class="author-link" target="_blank" style="color: darkgreen;">Bingyi Kang<sup>*</sup></a> &emsp;
-                <a href="https://yueyang130.github.io/" class="author-link" target="_blank" style="color: darkgreen;">Yang Yue<sup>*</sup></a> &emsp;
-                <br>
-                <a href="https://lr32768.github.io/" class="author-link" target="_blank" style="color: darkgreen;">Rui Lu</a> &emsp;
-                <a href="https://scholar.google.com/citations?user=xXMj6_EAAAAJ&hl=zh-CN" class="author-link" target="_blank" style="color: darkgreen;">Zhijie Lin</a> &emsp;
-                <a href="https://scholar.google.com/citations?user=uPmTOHAAAAAJ&hl=en" class="author-link" target="_blank" style="color: darkgreen;">Yang Zhao</a> &emsp;
-                <a href="https://kaixin96.github.io/" class="author-link" target="_blank" style="color: darkgreen;">Kaixin Wang</a> &emsp;
-                <a href="https://www.gaohuang.net/" class="author-link" target="_blank" style="color: darkgreen;">Gao Huang</a> &emsp;
-                <a href="https://sites.google.com/site/jshfeng/" class="author-link" target="_blank" style="color: darkgreen;">Jiashi Feng</a> &emsp; 
-                <br>
-                <a class="author-link" target="_blank"><i>Bytedance Research</i></a>
-                <br>
-                <span class="author-note" style="color: black;"><sup>*</sup>Equal Contribution, in alphabetical order</span>
-            </p>
-        </div>
-
-    <div class="button-container", style="text-align: center;">
-        <a href="https://arxiv.org/abs/2406.16860" class="button paper-link" target="_blank">
-            <span class="icon is-small">
-                <i class="ai ai-arxiv"></i>
-            </span>
-            arXiv
-        </a>
-        <a href="https://arxiv.org/pdf/2406.16860" class="button paper-link" target="_blank">
-            <span class="icon is-small">
-                <i class="fas fa-file-pdf"></i>
-            </span>
-            <span>pdf</span>
-        </a>
-        <a href="https://github.com/phyworld/phyworld" class="button" target="_blank">
-            <span class="icon is-small">
-                <i class="fab fa-github"></i>
-            </span>
-            <span>Code</span>
-        </a>
-        <a href="" class="button" target="_blank">
-            <span class="icon is-small">
-                <img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" alt="Hugging Face logo" style="height: 1em;">
-            </span>
-            <span>Checkpoints (Coming Soon)</span>
-        </a>
-        <a href="https://huggingface.co/collections/nyu-visionx/cambrian-data-6667ce801e179b4fbe774e11" class="button" target="_blank">
-            <span class="icon is-small">
-                <img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" alt="Hugging Face logo" style="height: 1em;">
-            </span>
-            <span>Data</span>
-        </a>                        
-    </div> -->
     
     <d-article>
 
         <div class="byline">
             <div class="byline-container">
-                <p>
-                    <a href="https://bingykang.github.io/" class="author-link" target="_blank" style="color: darkgreen;">Bingyi Kang<sup>*</sup></a> &emsp;
-                    <a href="https://yueyang130.github.io/" class="author-link" target="_blank" style="color: darkgreen;">Yang Yue<sup>*</sup></a> &emsp;
-                    <br>
-                    <a href="https://lr32768.github.io/" class="author-link" target="_blank" style="color: darkgreen;">Rui Lu</a> &emsp;
-                    <a href="https://scholar.google.com/citations?user=xXMj6_EAAAAJ&hl=zh-CN" class="author-link" target="_blank" style="color: darkgreen;">Zhijie Lin</a> &emsp;
-                    <a href="https://scholar.google.com/citations?user=uPmTOHAAAAAJ&hl=en" class="author-link" target="_blank" style="color: darkgreen;">Yang Zhao</a> &emsp;
-                    <a href="https://kaixin96.github.io/" class="author-link" target="_blank" style="color: darkgreen;">Kaixin Wang</a> &emsp;
-                    <a href="https://www.gaohuang.net/" class="author-link" target="_blank" style="color: darkgreen;">Gao Huang</a> &emsp;
-                    <a href="https://sites.google.com/site/jshfeng/" class="author-link" target="_blank" style="color: darkgreen;">Jiashi Feng</a> &emsp; 
-                    <br>
-                    <a class="author-link" target="_blank"><i>Bytedance Research</i></a>
-                    <br>
-                    <span class="author-note" style="color: black;"><sup>*</sup>Equal Contribution, in alphabetical order</span>
-                </p>
+                <div class="is-size-5 publication-authors">
+                    <div style="margin-bottom: px;">
+                        <span class="author-block">
+                            <a href="#" class="author-link" target="_blank" style="color: darkgreen;">Jiaqi Liao<sup>*</sup><sup style="color:#6fbf73;">1</sup></a>,
+                        </span>
+                        <span class="author-block">
+                            <a href="#" class="author-link" target="_blank" style="color: darkgreen;">Yuwei Niu<sup>*</sup><sup style="color:#ff0000;">6</sup><sup style="color:#0000ff;">8</sup></a>,
+                        </span>
+                        <span class="author-block">
+                            <a href="#" class="author-link" target="_blank" style="color: darkgreen;">Fanqing Meng<sup>*</sup><sup style="color:#9b51e0;">5</sup><sup style="color:#6fbf73;">1</sup></a>,
+                        </span>
+                        <span class="author-block">
+                            <a href="#" class="author-link" target="_blank" style="color: darkgreen;">Hao Li<sup style="color:#ffac33;">2</sup><sup style="color:#6fbf73;">1</sup></a>,
+                        </span>
+                        <span class="author-block">
+                            <a href="#" class="author-link" target="_blank" style="color: darkgreen;">Changyao Tian<sup style="color:#ffac33;">2</sup><sup style="color:#6fbf73;">1</sup></a>,
+                        </span>
+                        <span class="author-block">
+                            <a href="#" class="author-link" target="_blank" style="color: darkgreen;">Yinuo Du</a>
+                        </span>
+                    </div>
+                    <div>
+                        <span class="author-block">
+                            <a href="#" class="author-link" target="_blank" style="color: darkgreen;">Yuwen Xiong<sup style="color:#6fbf73;">1</sup></a>,
+                        </span>
+                        <span class="author-block">
+                            <a href="#" class="author-link" target="_blank" style="color: darkgreen;">Dianqi Li</a>,
+                        </span>
+                        <span class="author-block">
+                            <a href="#" class="author-link" target="_blank" style="color: darkgreen;">Xizhou Zhu<sup style="color:#ed4b82;">3</sup><sup style="color:#007bff;">4</sup></a>,
+                        </span>
+                        <span class="author-block">
+                            <a href="#" class="author-link" target="_blank" style="color: darkgreen;">Li Yuan<sup style="color:#ff0000;">6</sup><sup style="color:#00ff00;">7</sup></a>,
+                        </span>
+                        <span class="author-block">
+                            <a href="#" class="author-link" target="_blank" style="color: darkgreen;">Jifeng Dai<sup style="color:#ed4b82;">3</sup><sup style="color:#6fbf73;">1</sup><sup>✉</sup></a>,
+                        </span>
+                        <span class="author-block">
+                            <a href="#" class="author-link" target="_blank" style="color: darkgreen;">Yu Cheng<sup style="color:#ffac33;">2</sup><sup>✉</sup></a>
+                        </span>
+                    </div>
+                </div>
+        
+                <div class="is-size-5 publication-authors">
+                    <span class="author-block"><sup style="color:#6fbf73;">1</sup>OpenGVLab, Shanghai AI Laboratory,</span>
+                    <span class="author-block"><sup style="color:#ffac33;">2</sup>The Chinese University of Hong Kong,</span><br>
+                    <span class="author-block"><sup style="color:#ed4b82;">3</sup>Tsinghua University,</span>
+                    <span class="author-block"><sup style="color:#007bff;">4</sup>SenseTime Research,</span>
+                    <span class="author-block"><sup style="color:#9b51e0;">5</sup>Shanghai Jiao Tong University,</span><br>
+                    <span class="author-block"><sup style="color:#ff0000;">6</sup>Peking University,</span>
+                    <span class="author-block"><sup style="color:#00ff00;">7</sup>PengCheng Laboratory,</span>
+                    <span class="author-block"><sup style="color:#0000ff;">8</sup>Chongqing University</span>
+                </div>
+        
+                <div class="is-size-5 publication-authors">
+                    <span class="author-note" style="color: black;">*Equal contribution</span>
+                </div>
             </div>
         </div>
 
-        <h1 class="text abstract" style="text-align: center; font-size: x-large; margin-bottom: 0%;">The Answer:</h1>
-        <h1 class="text abstract" style="color: orange; font-size: x-large; text-align: center; margin-bottom: 0%;"><i>Video generation fails to learn physical laws from video data, even with scaling.</i></h1>
-        <div class="text video-container" style="position: relative; padding-bottom: 35%; height: 0;">
-            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/yWSn9Xyrkso" title="Is SORA really a world model?" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
-        </div>
-
-        
 
         <p class="text abstract" style="margin-top: 5%;">
-            &#x1F449;<span style="color: blue;"><strong>What?</strong></span>&nbsp; We study whether video generation model is able to learn and stick to physical laws. <br>
+            <span style="color: blue;"><strong>Background</strong></span><br>
+            Recent years have witnessed remarkable advances in Large Vision-Language Models (LVLMs), which have achieved human-level performance across various complex vision-language tasks. Following LLaVA's paradigm, mainstream LVLMs typically employ a shallow MLP for visual-language alignment through a two-stage training process: pretraining for cross-modal alignment followed by instruction tuning. While this approach has proven effective, the underlying mechanisms of how MLPs bridge the modality gap remain poorly understood. Although some research has explored how LLMs process transformed visual tokens, few studies have investigated the fundamental alignment mechanism. Furthermore, the MLP adapter requires retraining whenever switching LLM backbones.
         </p>
-        <p class="text abstract" style="margin-top: 0%;">
-            &#x1F449;<span style="color: blue;"><strong>Why?</strong></span> &nbsp;
-            OpenAI’s Sora<d-cite key="sora"></d-cite> highlights the potential of video generation for developing world models that adhere to fundamental physical laws,
-            according to the following quotation:
-            <p>
-                <i><strong>
-                Scaling video generation models is a promising path towards building general purpose simulators of the physical world.
-                </strong></i>
-            </p>
-            <p class="text abstract" style="margin-top: 0;">
-                However, the ability of video generation models to discover such laws purely from visual data without human priors can be questioned. 
-                A world model learning the true law should give predictions robust to nuances and correctly extrapolate on unseen scenarios.
-            </p>
+
+        <p class="text abstract" style="margin-top: 3%;">
+            <span style="color: blue;"><strong>Contribution</strong></span><br>
+            We propose LangBridge, an interpretable vision-language adapter that grounds visual semantics in LLM language priors through linear combinations of vocabulary embeddings. Our contributions can be summarized as follows:
+            <ul class="text" style="margin-top: 0%; padding-left: 10%;">
+                <li style="margin-bottom: 0;">1. <a href="#explainable_analysis"><strong>Explainable Analysis for Visual-Language Alignment</strong></a>: We first investigate the working principles of MLP adapters and discover that they learn to project visual embeddings into subspaces spanned by corresponding text embeddings progressively.</li>
+                <li style="margin-bottom: 0;">2. <a href="#novel_adapter"><strong>Novel Adapter</strong></a>: Based on this insight, we propose LangBridge, a novel adapter that explicitly maps visual tokens to linear combinations of LLM vocabulary embeddings.</li>
+                <li style="margin-bottom: 0;">3. <a href="#pretraining_free"><strong>Pretraining-Free Transfer</strong></a>: This innovative design enables pretraining-free adapter transfer across different LLMs while maintaining performance.</li>
+            </ul>
         </p>
+
+        <p class="text abstract" style="margin-top: 3%;">
+            <span style="color: blue;"><strong><a href="#validation">Validation</a></strong></span><br>
+            Our experimental results demonstrate that a LangBridge adapter pre-trained on Qwen2-0.5B can be directly applied to larger models such as LLaMA3-8B or Qwen2.5-14B with minimal performance degradation. Overall, LangBridge enables interpretable vision-language alignment by grounding visual semantics in LLM language priors, while its plug-and-play design ensures efficient reuse across multiple LLMs with minimal performance loss.
+        </p>
+
+        <div id="explainable_analysis" class="section">
+            <h1 class="text">Explainable Analysis for Visual-Language Alignment</h1>
+
+            <d-figure id="fig-explainable">
+                <figure>
+                    <img data-zoomable="" draggable="false" src="static/image/Explainable_figure_2_00.jpg" alt="Explainable Analysis Figure" width="100%">
+                    <figcaption>
+                        <strong>Figure 1:</strong> <strong>Progressive semantic alignment in MLP adapters across training stages.</strong> Circular graphs demonstrate the evolution of visual-text token associations through four training phases (Pretrain-100, Pretrain-1000, Pretrain-2000, and Final-SFT).
+                    </figcaption>
+                </figure>
+            </d-figure>
+            
+            <p class="text">
+                In this section, we conduct a comprehensive analysis of how MLPs bridge the modality gap through two aspects:
+            </p>
+            
+            <ul class="text">
+                <li><a href="#semantic_analysis"><strong>Investigating how visual semantics are encoded in transformed embeddings</strong></a></li>
+                <li><a href="#cross_modal_learning"><strong>Exploring how MLPs learn cross-modal alignment during training</strong></a></li>
+            </ul>
         
-        <p class="text abstract", style="margin-top: 0%;">
-            &#x1F449;<span style="color: blue;"><strong>How?</strong></span> &nbsp;
-            Answering such an question is non-trivial as it is hard to tell whether a law has been learned or not.
-
-            <ul class="text" style="margin-top: 0%; padding-left: 10%;">
-                <li style="margin-bottom: 0;"><strong><i>Evaluation</i></strong> &nbsp; We use three key scenarios: in-distribution, out-of-distribution, and combinatorial generalization. </li>
-                <li style="margin-bottom: 0;"><strong><i>Tasks</i></strong> &nbsp; We consider physical events governed by one or more classical mechanics laws, <i>e.g.</i>, elastic collision. </li>
-                <li style="margin-bottom: 0;"><strong><i>Data</i></strong> &nbsp; We develop a 2D simulator with simple geometric shapes (eliminating textures), for unlimited supply of data.</li>
-                <li style="margin-bottom: 0;"><strong><i>Model</i></strong> &nbsp; We use standard video generation model without any specific designs and focus on scaling-up. </li>
+            <h3 id="semantic_analysis" class="text">Semantic Analysis of Visual Embeddings</h3>
+            <p class="text">
+                To understand how visual semantics are encoded in transformed embeddings, we analyze the relationship between visual embeddings and text embeddings through cosine similarity: As shown in <span class="figure-ref">Figure 1</span>, visual embeddings exhibit strong correlations with semantically related text tokens. For example, image patches of red apples show high similarity to tokens like 'red' and 'Apple'. Moreover, some image tokens convey global information, for instance, '5,' which refers to the number of apples. This result demonstrates that visual embeddings are within the LLM's text embedding space through the MLP mapping, and are particularly close to their semantically related text embeddings.
+            </p>
+        
+            <h3 id="cross_modal_learning" class="text">Cross-Modal Alignment Learning Process</h3>
+            <p class="text">
+                To investigate the development of cross-modal alignment capabilities, we conduct a temporal analysis across different training stages:
+            </p>
+            
+            <ul class="text">
+                <li>Pretrain-100 steps</li>
+                <li>Pretrain-1000 steps</li>
+                <li>Pretrain-2000 steps</li>
+                <li>Final SFT</li>
             </ul>
-        </p>
-
-        <p class="text abstract", style="margin-top: 0%;">
-            &#x1F449;<span style="color: blue;"><strong>Key Messages</strong></span> &nbsp;
-            <ul class="text" style="margin-top: 0%; padding-left: 10%;">
-                <li style="margin-bottom: 0;"><strong><i>Generalization observation</i></strong> &nbsp; Perfect in-distribution generalization, failed to generalize in out-of-distribution scenarios, scaling behaviour for combinatorial generalization. </li>
-                <li style="margin-bottom: 0;"><strong><i>Generalization mechanism</i></strong> &nbsp; The models fail to abstract general physical rules and instead exhibit "case-based" generalization behaviour, <i>i.e.</i>, mimicking the closest training example. </li>
-                <li style="margin-bottom: 0;"><strong><i>Generalization priority</i></strong> &nbsp; When generalizing to new cases, models are observed to prioritize different factors when referencing training data: color > size > velocity > shape. </li>
-                <!-- <li><strong><i>Data</i></strong> &nbsp; We develop a 2D simulator with simple geometric shapes (eliminating textures), for unlimited supply of data.</li> -->
-                <!-- <li><strong><i>Model</i></strong> &nbsp; We use standard video generation model without any specific designs and focus on scaling-up. </li> -->
+            
+            <p class="text">
+                Our analysis reveals that MLPs undergo a progressive learning process in which they:
+            </p>
+            
+            <ul class="text">
+                <li>Initially establish basic visual-textual correspondences</li>
+                <li>Gradually refine the projection of visual features into relevant text embedding subspaces</li>
+                <li>Finally achieve robust semantic alignment between modalities</li>
             </ul>
+        
+            <p class="text">
+                This evolutionary process is clearly demonstrated in <span class="figure-ref">Figure 1</span>, where we observe increasing semantic alignment strength and precision as training progresses. These results support our hypothesis that MLPs gradually develop their projection capabilities, incrementally learning to map visual features into regions close to the subspace spanned by their corresponding text embeddings. Building upon this insight, we introduce an explicit transformation approach called <strong>Language Basis Vector Projection</strong>. This approach explicitly projects visual features into the text embedding subspace of the LLM by representing them as linear combinations of the LLM's vocabulary embeddings.
+            </p>
 
-            <!-- In this work, we evaluate across three key scenarios: in-distribution, out-of-distribution, and combinatorial generalization.
-            We developed a 2D simulation testbed for object movement and collisions to generate videos deterministically governed by one or more classical mechanics laws.
-            This provides an unlimited supply of data for large-scale experimentation and enables quantitative evaluation of whether the generated videos adhere to physical laws.
-            We trained diffusion-based video generation models to predict object movements based on initial frames.
-            Our scaling experiments show perfect generalization within the distribution, measurable scaling behaviour for combinatorial generalization, but failure in out-of-distribution scenarios.
-            Further experiments reveal two key insights about the generalization mechanisms of these models: (1) the models fail to abstract general physical rules and instead exhibit ``case-based'' generalization behaviour, \textit{i.e.}, mimicking the closest training example; (2) when generalizing to new cases, models are observed to prioritize different factors when referencing training data: color $>$ size $>$ velocity $>$ shape.
-            Our study suggests that scaling alone is insufficient for video generation models to uncover fundamental physical laws, despite its role in Sora's broader success. -->
-        </p>
+        </div>
 
-        <p class="text abstract" style="margin-top: 0%;">
-            <!-- <br><br> -->
-            <h2 class="text">Contents</h2>
-            <ol class="text">
-                <li><strong><a href="#law_discovery">&sect;Physical Law Discovery as Video Generation</a></strong>: Problem definition and categoraization of evaluation</li>
-                <li><strong><a href="#id_and_ood">&sect;In-Distribution and Out-of-Distribution Generalization</a></strong>: We study how in-distribution and out-of-distribution generalization is correlated with model or data scaling.</li>
-                <li><strong><a href="#combo_gen">&sect;Combinatorial Generalization</a></strong>: We investigate the combinatorial generalization abilities of video generation models.</li>
-                <li><strong><a href="#analysis">&sect;Analysis on Generalization behaviour</a></strong>: We investigate the generalization mechanism of a video generation model.</li>
-                <ul>
-                    <li><a href="#inter_and_extra">&sect;Understanding Generalization from Interpolation and Extrapolation.</a></li>
-                    <li><a href="#memo_vs_gen">&sect;Memorization or Generalization.</a></li>
-                    <li><a href="#how_to_knn">&sect;How Does Diffusion Model Retrieve Data?</a></li>
-                    <li><a href="#how_to_combine">&sect;How Does Complex Combinatorial Generalization Happen?</a></li>
-                    <li><a href="#visual_ambiguity">&sect;Is Video Sufficient for Complete Physics Modeling?</a></li>
-                </ul>
-                <li><strong><a href="#open_discussion">&sect;Open Discussion</a></strong>: We aim to trigger more discussion in understanding the ability and limitation of video generation models.</li>
-            </ol>
-        </p>
+        <div id="law_discovery" class="section">
+            <h1 class="text">Method</h1>
 
-        <hr>
-        <div class="section" id="twitter">
-            <h1 class="text">Discussions from the Community <button class="collapse-btn" onclick="toggleContent()"> <i class="fa-duotone fa-solid fa-comments"></i> Display / Hide </button></h1>
-            <div class="text collapse" id="twitter_container" style="display: none">
-                <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Curious whether video generation models (like <a href="https://twitter.com/hashtag/SORA?src=hash&amp;ref_src=twsrc%5Etfw">#SORA</a>) qualify as world models?<br><br>We conduct a systematic study to answer this question by investigating whether a video gen model is able to learn physical laws. <br><br>Three are three key messages to take home: <br>1⃣The model generalises… <a href="https://t.co/oWYT2AcRTy">pic.twitter.com/oWYT2AcRTy</a></p>&mdash; Bingyi Kang (@bingyikang) <a href="https://twitter.com/bingyikang/status/1853635009611219019?ref_src=twsrc%5Etfw">November 5, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-                <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Not a surprising result.<br>But good that someone tried this out. <a href="https://t.co/0KWsJeaOLy">https://t.co/0KWsJeaOLy</a></p>&mdash; Yann LeCun (@ylecun) <a href="https://twitter.com/ylecun/status/1854022022654767367?ref_src=twsrc%5Etfw">November 6, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-                <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Wow. First <a href="https://twitter.com/pmarca?ref_src=twsrc%5Etfw">@pmarca</a> confirms deep learning is hitting a wall, now this, EXACTLY what I have been telling you all since 1998, over and over again.<br><br>The difference between within and out of training space generalization is all.<br><br>Until we solve this, we won’t get to AGI. <a href="https://t.co/KvH14R8Veu">https://t.co/KvH14R8Veu</a></p>&mdash; Gary Marcus (@GaryMarcus) <a href="https://twitter.com/GaryMarcus/status/1854030327301501209?ref_src=twsrc%5Etfw">November 6, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-                <blockquote class="twitter-tweet"><p lang="en" dir="ltr">This is not surprising to me, but I’m glad they did the work to test it. Agents need more inductive bias - eg common sense core from Spelke - , and active data collection from diverse embodied environments to test their causal theories ie. beyond pixel prediction . <a href="https://t.co/ovZhzDQpay">https://t.co/ovZhzDQpay</a></p>&mdash; Kevin Patrick Murphy (@sirbayes) <a href="https://twitter.com/sirbayes/status/1854018182849438078?ref_src=twsrc%5Etfw">November 6, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-                <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Really happy to see this study! Always wanted to do something like this myself, if only to support calming words to grad students: current-gen generative models have nothing to do with intelligence, and AI research remains fascinating and unsolved! <a href="https://t.co/D4FI2Wi60P">https://t.co/D4FI2Wi60P</a></p>&mdash; Vincent Sitzmann (@vincesitzmann) <a href="https://twitter.com/vincesitzmann/status/1853735899051299194?ref_src=twsrc%5Etfw">November 5, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-                <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Interesting addition to the discussion over whether AI video models are world models.<br><br>But even if that topic doesn’t interest you, this “video abstract” is one of the best examples of summarizing a paper for social media I have seen. <a href="https://t.co/BWdXHk5s9Q">https://t.co/BWdXHk5s9Q</a></p>&mdash; Ethan Mollick (@emollick) <a href="https://twitter.com/emollick/status/1853857842312188012?ref_src=twsrc%5Etfw">November 5, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-                <blockquote class="twitter-tweet"><p lang="en" dir="ltr">While video models can generate stunning visuals, lots more work is needed to really make them effective world models.<br><br>Problems like object persistence, compositionality, action following and accurate physics are all current issues with current models. <a href="https://t.co/Iq0XRcnvIn">https://t.co/Iq0XRcnvIn</a></p>&mdash; Yilun Du (@du_yilun) <a href="https://twitter.com/du_yilun/status/1853792065198436709?ref_src=twsrc%5Etfw">November 5, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-                <blockquote class="twitter-tweet"><p lang="zh" dir="ltr">大家都很好奇，Sora 等视频生成模型训练完全后，是否有会成为世界模型？<br>简单来说，答案是 NO！<br><br>这项研究尝试让视频模型学习物理定律，结果如何呢？<br>- 模型对于分布内数据可以完美地进行泛化，但无法对分布外数据进行泛化<br>- 模型无法抽象出一般规则，而是试图模仿最接近的训练示例。 <br>-… <a href="https://t.co/RkiCcmAb2k">https://t.co/RkiCcmAb2k</a></p>&mdash; orange.ai (@oran_ge) <a href="https://twitter.com/oran_ge/status/1853927295570100229?ref_src=twsrc%5Etfw">November 5, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+            <d-figure id="figure-2">
+                <figure>
+                    <img data-zoomable="" draggable="false" src="static/image/pipeline_new_00.jpg" alt="Explainable Analysis Figure" width="100%">
+                    <figcaption>
+                        <strong>Figure 2:</strong> <strong>Overview of LangBridge architecture and workflow.</strong>
+                    </figcaption>
+                </figure>
+            </d-figure>
+            
+            <p class="text">
+                In this section, we introduce LangBridge, a novel adapter that translates visual features into the language model's embedding space based on the Language Basis Vector Projection Theory. Our key insight is to decompose visual features into linear combinations of the LLM's vocabulary embeddings, enabling seamless integration with different LLM architectures. First, we present the core architecture of LangBridge (Section 3.1), which operates by extracting visual features from images and projecting them into probability distributions over the LLM's vocabulary space. These distributions are then used to construct visual tokens as weighted combinations of text embeddings. Finally, we explain how the pretrained LangBridge can be seamlessly reused across different LLM architectures without retraining (<a href="#pretraining_free">Section 3.2</a>).
+            </p>
+            
+            <h2 id="novel_adapter" class="text">Novel Adapter</h2>
+            <p class="text"> <strong>Architecture of LangBridge</strong><br> We present the architecture of LangBridge, a novel
+                vision-language adapter based on the Language Basis Vector Projection Theory. As illustrated in <a href="#figure-2">Figure 2</a>, the
+                framework operates through three stages: </p>
+            <p class="text"> <strong>Stage 1: Visual Feature Extraction.</strong><br> 
+                Given an input image \(\mathcal{I} \in \mathbb{R}^{H \times W \times 3}\), we employ a Vision Transformer to extract patch-aligned visual features: 
+                \[\{v_i\}_{i=1}^N = \text{ViT}(\mathcal{I}), \quad v_i \in \mathbb{R}^D \tag{1}\] 
+                where \(N = \frac{HW}{P^2}\) denotes the number of image patches with patch size \(P\). 
+            </p>
+            <p class="text"> <strong>Stage 2: Probability Computation.</strong><br> 
+                After acquiring the visual features, we transform them into visual tokens and align them with the LLM's text embedding space. This process is carried out by
+                decomposing the visual features into linear combinations of the LLM's vocabulary embeddings. We first apply a two-layer MLP to project the visual features into the LLM's text embedding
+                space. Let \(\mathbf{v}\) represent the visual feature. The projection is given by: 
+                \[\mathbf{v}_{\text{proj}} = \text{MLP}(\mathbf{v}) \tag{2}\] 
+                where \(\mathbf{v}_{\text{proj}} \in \mathbb{R}^D\), and \(D\) is the dimensionality of
+                the text embeddings. Next, we append a linear layer \(\mathbf{W} \in \mathbb{R}^{T \times D}\), where \(T\) is the
+                vocabulary size of the LLM, to produce the probability distribution \(\mathbf{p}\), matching the LLM's vocab size:
+                \[\mathbf{p} = \mathbf{W} \cdot \text{MLP}(\mathbf{v}) \tag{3}\]
+            </p>
+            <p class="text"> <strong>Stage 3: Linear Combination of Text Embeddings.</strong><br> 
+                Once we have the probability distribution \(\mathbf{p}\) from Equation (3), the visual features are represented as a weighted combination of the LLM's
+                text embeddings. The probability distribution \(\mathbf{p}\) serves as the coefficients for a linear combination of
+                the LLM's vocabulary embeddings \(\mathbf{e}_i\), where each \(\mathbf{e}_i \in \mathbb{R}^D\) is a text embedding of the
+                \(i\)-th token in the vocabulary. Specifically, the visual tokens \(\mathbf{v}_{\text{tokens}}\) are obtained as
+                follows: 
+                \[\mathbf{v}_{\text{tokens}} = \sum_{i=1}^T p_i \mathbf{e}_i \tag{4}\] 
+                where \(p_i\) is the \(i\)-th component of the probability distribution \(\mathbf{p}\), and \(T\) is the vocabulary size of the LLM. 
+                The resulting vector \(\mathbf{v}_{\text{tokens}} \in \mathbb{R}^D\) represents the final visual token, which aligns with the LLM's text
+                embedding space. 
+            </p>
+
+            <h2 id="pretraining_free" class="text">Pretraining-Free Transfer</h2>
+            <p class="text">
+                A key feature of LangBridge is its ability to be seamlessly reused across different LLM architectures after being pretrained. As illustrated in <a href="#figure-2">Figure 2</a>, this reuse mechanism consists of two stages:
+            </p>
+
+            <p class="text">
+                <strong>Stage 1: Pretrain.</strong><br>
+                During the pretraining stage, we first extract image features through the Vision Encoder, then use LangBridge to learn to map these features to the space of Shared Vocab Embedding of LLM-1, optimizing by the caption loss. In this stage, LangBridge outputs probability distributions over the selected vocabulary.
+            </p>
+
+            <p class="text">
+                <strong>Stage 2: SFT.</strong><br>
+                When constructing a LVLM based on the new LLM-2, we do not need to retrain LangBridge in stage 1. Instead, we can directly reuse the adapters that were co-trained with LLM-1 in stage 1. The core principle behind this is that LangBridge only needs to output the probability distributions over the corresponding vocab instead of direct transform. When reusing LangBridge with different LLMs, such as Qwen2-0.5B and LLaMA3-8B, the key difficulty lies in the vocabulary (due to differences in vocabulary size). To enable reuse across different LLMs, as described in <a href="#figure-2">Figure 2</a>, we construct a shared vocabulary \(V_{shared}\). The reusing process can be expressed as:
+            </p>
+
+            <p class="text" style="text-align: center;">
+                \[P = \text{LangBridge}_{\text{LLM}_1}(I) \in \mathbb{R}^{|V_{\text{shared}}|}\]
+                \[\text{Visiontoken}_{\text{LLM}2} = P \cdot V_{\text{shared}}\]
+            </p>
+
+            <p class="text">
+                Here, \(P\) represents the probability distribution over the shared vocabulary \(V_{\text{shared}}\). The operation \(P \cdot V_{\text{shared}}\) projects this distribution onto \(\text{LLM-2}\)'s vocabulary, resulting in the vision token \(\text{Visiontoken}_{\text{LLM-2}}\), which is then sent to \(\text{LLM-2}\) for processing.
+            </p>
+
+        </div>
+
+        <div id="law_discovery" class="section">
+            <h1 class="text">Validation</h1>
+
+            <p class="text">
+                We systematically compare the performance of the proposed LangBridge with baseline models across multiple evaluation metrics and highlight its unique advantage of enabling pre-training-free transfer between different large language models. Specifically, we explore two scenarios: <a href="#same_architecture"><strong>same-architecture transfer</strong></a> and <a href="#cross_architecture"><strong>cross-architecture transfer</strong></a>, to demonstrate the unique advantage of the proposed paradigm fully. 
+            </p>
+
+            <h3 id="same_architecture" class="text">Same-architecture Transfer</h3>
+            <p class="text">
+                We first examine the effectiveness of LangBridge in the context of same-architecture transfer. This setting is of great significance for efficiently scaling up model size, as it allows leveraging knowledge learned on smaller, more readily trainable models to improve the performance of larger ones. As shown in <a href="#tab:model_ensemble"><strong>Table 1</strong></a>, the LangBridge module, pre-trained or fine-tuned on a Qwen2-0.5B model, can be seamlessly transferred to Qwen2-7B and Qwen2.5-14B models without requiring computationally expensive re-pretraining.
+                The results demonstrate that this transfer not only maintains strong performance but also, in several instances, exceeds the performance of the baseline models trained directly on the target LLM size.
+            </p>
+
+            <div id="tab:model_ensemble" style="display: flex; flex-direction: column; align-items: center;">
+                <div class="table-container">
+                    <table class="data-table">
+                        <caption style="caption-side: top; text-align: left; margin-bottom: 10px;">
+                            <strong>Table 1: Same-architecture transfer results.</strong>
+                        </caption>
+                        <thead>
+                            <tr>
+                                <th>SFT-LLM</th>
+                                <th>Connector</th>
+                                <th>GQA</th>
+                                <th>TextVQA</th>
+                                <th>MME</th>
+                                <th>MMBench</th>
+                                <th>MMVeT</th>
+                                <th>POPE</th>
+                                <th>SciQA</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Qwen2-7B</td>
+                                <td>Qwen2-7B-Pretrain-MLPs</td>
+                                <td>62.92</td>
+                                <td>57.24</td>
+                                <td>1938</td>
+                                <td>72.7</td>
+                                <td>35.5</td>
+                                <td>87.8</td>
+                                <td>79.44</td>
+                            </tr>
+                            <tr style="background-color: #e6f3ff;">
+                                <td>-</td>
+                                <td>Qwen2-0.5B-Pretrain-LangBridge</td>
+                                <td>63.03 <span style="color: red;">(+0.17%)</span></td>
+                                <td>57.25 <span style="color: red;">(+0.02%)</span></td>
+                                <td>1886 <span style="color: blue;">(-2.68%)</span></td>
+                                <td>71.7 <span style="color: blue;">(-1.38%)</span></td>
+                                <td>34.1 <span style="color: blue;">(-3.94%)</span></td>
+                                <td>88.2 <span style="color: red;">(+0.46%)</span></td>
+                                <td>79.23 <span style="color: blue;">(-0.26%)</span></td>
+                            </tr>
+                            <tr style="background-color: #ffe6e6;">
+                                <td>-</td>
+                                <td>Qwen2-0.5B-SFT-LangBridge</td>
+                                <td>63.15 <span style="color: red;">(+0.37%)</span></td>
+                                <td>57.34 <span style="color: red;">(+0.17%)</span></td>
+                                <td>1904 <span style="color: blue;">(-1.75%)</span></td>
+                                <td>71.0 <span style="color: blue;">(-2.34%)</span></td>
+                                <td>31.6 <span style="color: blue;">(-10.99%)</span></td>
+                                <td>88.3 <span style="color: red;">(+0.57%)</span></td>
+                                <td>79.25 <span style="color: blue;">(-0.24%)</span></td>
+                            </tr>
+                            <tr>
+                                <td>Qwen2.5-7B</td>
+                                <td>Qwen2.5-7B-Pretrain-MLPs</td>
+                                <td>62.70</td>
+                                <td>57.83</td>
+                                <td>1939</td>
+                                <td>73.8</td>
+                                <td>34.8</td>
+                                <td>88.4</td>
+                                <td>79.11</td>
+                            </tr>
+                            <tr style="background-color: #e6f3ff;">
+                                <td>-</td>
+                                <td>Qwen2-0.5B-Pretrain-LangBridge</td>
+                                <td>62.68 <span style="color: blue;">(-0.03%)</span></td>
+                                <td>57.35 <span style="color: blue;">(-0.83%)</span></td>
+                                <td>1871 <span style="color: blue;">(-3.51%)</span></td>
+                                <td>72.3 <span style="color: blue;">(-2.03%)</span></td>
+                                <td>34.7 <span style="color: blue;">(-0.29%)</span></td>
+                                <td>88.1 <span style="color: blue;">(-0.34%)</span></td>
+                                <td>81.23 <span style="color: red;">(+2.68%)</span></td>
+                            </tr>
+                            <tr style="background-color: #ffe6e6;">
+                                <td>-</td>
+                                <td>Qwen2-0.5B-SFT-LangBridge</td>
+                                <td>62.69 <span style="color: blue;">(-0.02%)</span></td>
+                                <td>57.94 <span style="color: red;">(+0.19%)</span></td>
+                                <td>1915 <span style="color: blue;">(-1.24%)</span></td>
+                                <td>72.7 <span style="color: blue;">(-1.49%)</span></td>
+                                <td>35.6 <span style="color: red;">(+2.30%)</span></td>
+                                <td>88.1 <span style="color: blue;">(-0.34%)</span></td>
+                                <td>77.1 <span style="color: blue;">(-2.54%)</span></td>
+                            </tr>
+                            <tr>
+                                <td>Qwen2.5-14B</td>
+                                <td>Qwen2.5-14B-Pretrain-MLPs</td>
+                                <td>63.71</td>
+                                <td>61.32</td>
+                                <td>2038</td>
+                                <td>78.2</td>
+                                <td>37.7</td>
+                                <td>88.1</td>
+                                <td>85.59</td>
+                            </tr>
+                            <tr style="background-color: #e6f3ff;">
+                                <td>-</td>
+                                <td>Qwen2-0.5B-Pretrain-LangBridge</td>
+                                <td>63.75 <span style="color: red;">(+0.06%)</span></td>
+                                <td>61.57 <span style="color: red;">(+0.41%)</span></td>
+                                <td>1963 <span style="color: blue;">(-3.68%)</span></td>
+                                <td>76.2 <span style="color: blue;">(-2.56%)</span></td>
+                                <td>35.9 <span style="color: blue;">(-4.77%)</span></td>
+                                <td>88.2 <span style="color: red;">(+0.11%)</span></td>
+                                <td>84.74 <span style="color: blue;">(-0.99%)</span></td>
+                            </tr>
+                            <tr style="background-color: #ffe6e6;">
+                                <td>-</td>
+                                <td>Qwen2-0.5B-SFT-LangBridge</td>
+                                <td>63.92 <span style="color: red;">(+0.33%)</span></td>
+                                <td>62.02 <span style="color: red;">(+1.14%)</span></td>
+                                <td>1990 <span style="color: blue;">(-2.36%)</span></td>
+                                <td>77.4 <span style="color: blue;">(-1.02%)</span></td>
+                                <td>38.4 <span style="color: red;">(+1.86%)</span></td>
+                                <td>87.6 <span style="color: blue;">(-0.57%)</span></td>
+                                <td>84.77 <span style="color: blue;">(-0.96%)</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <h3 id="cross_architecture" class="text">Cross-architecture Transfer</h3>
+            <p class="text">
+                Furthermore, we explore whether LangBridge demonstrates excellent performance in cross-architecture transfer scenarios (e.g., Qwen, LLaMA), specifically examining transfers from Qwen series models to LLaMA3 and vice versa. As shown in <strong><a href="#tab:cross_architecture">Table 2</a></strong>, LangBridge demonstrates a remarkable ability to maintain strong performance, retaining a high percentage of the baseline performance, exceeding 99% on many benchmarks. Moreover, the transfer from Qwen2-0.5B to Llama3-8B results in significant improvements, with performance gains observed across most benchmarks, especially MMVeT.
+            </p>
+
+            <p class="text">
+                In the reverse direction, transferring from LLaMA3-8B to Qwen models (7B to 14B), LangBridge maintains robust performance, consistently achieving above 99% of the baseline scores across most benchmarks. In several cases, it even surpasses the baseline performance, such as when transferring to Qwen2.5-7B, where the LLaMA3-8B-SFT-LangBridge connector improves MMVeT (+8.33%) and POPE (+1.92%). Similarly, when applied to Qwen2.5-14B, the connector achieves gains in GQA (+1.19%) and MMVeT (+1.59%). These results demonstrate LangBridge's strong capability for cross-architecture transfer, effectively bridging different model families while maintaining or even enhancing performance across diverse multimodal tasks.
+            </p>
+
+            <div id="tab:cross_architecture" style="display: flex; flex-direction: column; align-items: center;">
+                <div class="table-container">
+                    <table class="data-table">
+                        <caption style="caption-side: top; text-align: left; margin-bottom: 10px;">
+                            <strong>Table 2: Cross-architecture transfer results.</strong>
+                        </caption>
+                        <thead>
+                            <tr>
+                                <th>SFT-LLM</th>
+                                <th>Connector</th>
+                                <th>GQA</th>
+                                <th>TextVQA</th>
+                                <th>MME</th>
+                                <th>MMBench</th>
+                                <th>MMVeT</th>
+                                <th>POPE</th>
+                                <th>SciQA</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>LLaMA3-8B</td>
+                                <td>LLaMA3-8B-Pretrain-MLPs</td>
+                                <td>63.24</td>
+                                <td>55.66</td>
+                                <td>1736</td>
+                                <td>71.0</td>
+                                <td>31.0</td>
+                                <td>87.1</td>
+                                <td>78.61</td>
+                            </tr>
+                            <tr style="background-color: #e6f3ff;">
+                                <td>-</td>
+                                <td>Qwen2-0.5B-Pretrain-LangBridge</td>
+                                <td>64.14 <span style="color: red;">(+1.42%)</span></td>
+                                <td>56.70 <span style="color: red;">(+1.87%)</span></td>
+                                <td>1772 <span style="color: red;">(+2.07%)</span></td>
+                                <td>70.1 <span style="color: blue;">(-1.27%)</span></td>
+                                <td>34.0 <span style="color: red;">(+9.68%)</span></td>
+                                <td>87.5 <span style="color: red;">(+0.46%)</span></td>
+                                <td>78.78 <span style="color: red;">(+0.22%)</span></td>
+                            </tr>
+                            <tr style="background-color: #ffe6e6;">
+                                <td>-</td>
+                                <td>Qwen2-0.5B-SFT-LangBridge</td>
+                                <td>63.96 <span style="color: red;">(+1.14%)</span></td>
+                                <td>57.35 <span style="color: red;">(+3.04%)</span></td>
+                                <td>1804 <span style="color: red;">(+3.92%)</span></td>
+                                <td>69.4 <span style="color: blue;">(-2.25%)</span></td>
+                                <td>32.7 <span style="color: red;">(+5.48%)</span></td>
+                                <td>87.5 <span style="color: red;">(+0.46%)</span></td>
+                                <td>78.33 <span style="color: blue;">(-0.36%)</span></td>
+                            </tr>
+                            <tr>
+                                <td>Qwen2-7B</td>
+                                <td>Qwen2-7B-Pretrain-MLPs</td>
+                                <td>62.92</td>
+                                <td>57.24</td>
+                                <td>1938</td>
+                                <td>72.7</td>
+                                <td>35.5</td>
+                                <td>87.8</td>
+                                <td>79.44</td>
+                            </tr>
+                            <tr style="background-color: #e6f3ff;">
+                                <td>-</td>
+                                <td>LLaMA3-8B-Pretrain-LangBridge</td>
+                                <td>62.90 <span style="color: blue;">(-0.03%)</span></td>
+                                <td>57.23 <span style="color: blue;">(-0.02%)</span></td>
+                                <td>1874 <span style="color: blue;">(-3.30%)</span></td>
+                                <td>72.1 <span style="color: blue;">(-0.83%)</span></td>
+                                <td>34.5 <span style="color: blue;">(-2.82%)</span></td>
+                                <td>87.6 <span style="color: blue;">(-0.23%)</span></td>
+                                <td>80.17 <span style="color: red;">(+0.92%)</span></td>
+                            </tr>
+                            <tr style="background-color: #ffe6e6;">
+                                <td>-</td>
+                                <td>LLaMA3-8B-SFT-LangBridge</td>
+                                <td>62.77 <span style="color: blue;">(-0.24%)</span></td>
+                                <td>57.08 <span style="color: blue;">(-0.28%)</span></td>
+                                <td>1915 <span style="color: blue;">(-1.19%)</span></td>
+                                <td>71.7 <span style="color: blue;">(-1.38%)</span></td>
+                                <td>33.2 <span style="color: blue;">(-6.48%)</span></td>
+                                <td>88.2 <span style="color: red;">(+0.46%)</span></td>
+                                <td>78.83 <span style="color: blue;">(-0.77%)</span></td>
+                            </tr>
+                            <tr>
+                                <td>Qwen2.5-7B</td>
+                                <td>Qwen2.5-7B-Pretrain-MLPs</td>
+                                <td>62.70</td>
+                                <td>57.83</td>
+                                <td>1939</td>
+                                <td>73.8</td>
+                                <td>34.8</td>
+                                <td>88.4</td>
+                                <td>79.11</td>
+                            </tr>
+                            <tr style="background-color: #e6f3ff;">
+                                <td>-</td>
+                                <td>LLaMA3-8B-Pretrain-LangBridge</td>
+                                <td>62.72 <span style="color: red;">(+0.03%)</span></td>
+                                <td>57.78 <span style="color: blue;">(-0.09%)</span></td>
+                                <td>1878 <span style="color: blue;">(-3.15%)</span></td>
+                                <td>71.9 <span style="color: blue;">(-2.57%)</span></td>
+                                <td>32.3 <span style="color: blue;">(-7.18%)</span></td>
+                                <td>88.4 <span style="color: red;">(+0.00%)</span></td>
+                                <td>80.59 <span style="color: red;">(+1.87%)</span></td>
+                            </tr>
+                            <tr style="background-color: #ffe6e6;">
+                                <td>-</td>
+                                <td>LLaMA3-8B-SFT-LangBridge</td>
+                                <td>63.03 <span style="color: red;">(+0.53%)</span></td>
+                                <td>57.72 <span style="color: blue;">(-0.19%)</span></td>
+                                <td>1909 <span style="color: blue;">(-1.55%)</span></td>
+                                <td>71.1 <span style="color: blue;">(-3.66%)</span></td>
+                                <td>37.7 <span style="color: red;">(+8.33%)</span></td>
+                                <td>90.1 <span style="color: red;">(+1.92%)</span></td>
+                                <td>79.84 <span style="color: red;">(+0.92%)</span></td>
+                            </tr>
+                            <tr>
+                                <td>Qwen2.5-14B</td>
+                                <td>Qwen2.5-14B-Pretrain-MLPs</td>
+                                <td>63.71</td>
+                                <td>61.32</td>
+                                <td>2038</td>
+                                <td>78.2</td>
+                                <td>37.7</td>
+                                <td>88.1</td>
+                                <td>85.59</td>
+                            </tr>
+                            <tr style="background-color: #e6f3ff;">
+                                <td>-</td>
+                                <td>LLaMA3-8B-Pretrain-LangBridge</td>
+                                <td>63.88 <span style="color: red;">(+0.27%)</span></td>
+                                <td>61.39 <span style="color: blue;">(-0.11%)</span></td>
+                                <td>2005 <span style="color: blue;">(-1.62%)</span></td>
+                                <td>77.1 <span style="color: blue;">(-1.41%)</span></td>
+                                <td>36.9 <span style="color: blue;">(-2.12%)</span></td>
+                                <td>87.9 <span style="color: blue;">(-0.23%)</span></td>
+                                <td>85.03 <span style="color: blue;">(-0.65%)</span></td>
+                            </tr>
+                            <tr style="background-color: #ffe6e6;">
+                                <td>-</td>
+                                <td>LLaMA3-8B-SFT-LangBridge</td>
+                                <td>64.47 <span style="color: red;">(+1.19%)</span></td>
+                                <td>61.35 <span style="color: blue;">(-0.05%)</span></td>
+                                <td>1980 <span style="color: blue;">(-2.85%)</span></td>
+                                <td>76.3 <span style="color: blue;">(-2.43%)</span></td>
+                                <td>38.3 <span style="color: red;">(+1.59%)</span></td>
+                                <td>87.8 <span style="color: blue;">(-0.34%)</span></td>
+                                <td>84.23 <span style="color: blue;">(-1.59%)</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-
-        <hr>
-        <div id="law_discovery" class="section">
-            <h1 class="text">Physical Law Discovery as Video Generation</h1>
-
-            <h5 class="text">Problem Definition</h5>
-            <p class="text">
-                We aim to establish the framework and define the concept of physical laws discovery in the context of video generation.
-                In classical physics, laws are articulated through mathematical equations that predict future state and dynamics from initial conditions.
-                In the realm of video-based observations, each frame represents a moment in time, and the prediction of physical laws corresponds to 
-                generating future frames conditioned on past states. 
-                <br><br>
-
-                Consider a physical procedure which involves several latent variables $\boldsymbol{z}=(z_1,z_2,\ldots,z_k) \in \mathcal{Z} \subseteq \mathbb{R}^k$, 
-                each standing for a certain physical parameter such as velocity or position. By classical mechanics, these latent variables will evolve by differential 
-                equation $\dot{\boldsymbol{z}}=F(\boldsymbol{z})$. In discrete version, if time gap between two consecutive frames is $\delta$, then we have 
-                $\boldsymbol{z}_{t+1} \approx \boldsymbol{z}_{t} + \delta F(\boldsymbol{z}_t)$. Denote rendering function as 
-                $R(\cdot): \mathcal{Z}\mapsto \mathbb{R}^{3\times H \times W}$ which render the state of the world into an image of shape $H\times W$ with RGB channels.
-                Consider a video \( V = \{I_1, I_2, \ldots, I_L\} \) consisting of \( L \) frames that follows the classical mechanics dynamics. The physical coherence 
-                requires that there exists a series of latent variables which satisfy following requirements:
-                $$ \boldsymbol{z}_{t+1} = \boldsymbol{z}_{t} + \delta F(\boldsymbol{z}_t), t=1,\ldots,L-1. $$
-                $$ I_t = R(\boldsymbol{z}_t), \quad t=1,\ldots, L. $$
-                We train a video generation model \( p \) parametried by \( \theta \), where \( p_{\theta}(I_1, I_2, \ldots, I_L )\) characterizes its understanding of 
-                video frames. <strong>We can predict the subsequent frames by sampling from \( p_{\theta}(I_{c+1}', \ldots I_L' \mid I_1, \ldots, I_c) \) based on initial frames' 
-                condition.</strong> The variable $c$ usually takes the value of 1 or 3 depends on tasks. Therefore, physical-coherence loss can be simply defined as 
-                $-\log p_{\theta}(I_{c+1}, \ldots, I_L \mid I_1, \ldots, I_c) $. It measures how likely the predicted value will cater to the real world development. 
-                The model must understand the underlying physical process to accurately forecast subsequent frames, which we can quantatively evaluate whether video 
-                generation model correctly discover and simulate the physical laws.
-            </p>
-
-            <h5 class="text">On the Verification of Learned Laws</h5>
-
-            <p class="text">
-                Suppose we have a video generation model learned based on the above formulation. How do we determine if the underlying physical law has been discovered? 
-                A well-established law describes the behaviour of the natural world, <i>e.g.</i>, how objects move and interact. Therefore, a video model incorporating 
-                true physical laws should be able to withstand experimental verification, producing reasonable predictions under any circumstances, which demonstrates 
-                the model's generalization ability. To comprehensively evaluate this, we consider the following categorization of generalization 
-                (see <a href="#fig-cat_of_gen">Figure 1</a>) within the scope of this paper:
-                
-                <d-figure id="fig-cat_of_gen">
-                    <figure style="text-align: center;">
-                        <img data-zoomable="" draggable="false" src="static/image/cat_of_gen.png" alt="benchmark category" style="width: 80%">
-                        <figcaption>
-                            <strong>Figure 1:</strong> Categorization of generalization patterns. &#x25EF; denotes training data. &#x2715; denotes testing data.
-                        </figcaption>
-                    </figure>
-                </d-figure>
-                
-                <ul class="text">
-                    <li>
-                        <strong><i>In-Distribution (ID)</i></strong> generalization: It describes the setting where training data and testing data are from the same distribution.
-                        In our case, both training and testing data follow the same law and are located in the same domain.
-                    </li>
-                    <li>
-                        <strong><i>Out-of-Distribution (OOD)</i></strong> generalization: A human who has learned a physical law can easily extrapolate to scenarios that have never been observed before.
-                        This ability is referred to as out-of-distribution generalization. Although it sounds challenging, this evaluation is necessary as it indicates whether a model can learn principled rules from data.
-                    </li>
-                    <li>
-                        <strong><i>Combinatorial</i></strong> generalization: There is a situation between ID and OOD, which has more practical value. We call this combinatorial generalization,
-                        representing scenarios where every "concept" or object has been observed during training, but not their every combination. It examines a model's ability to effectively 
-                        combine relevant information from past experiences in novel ways. A similar concept has been explored in LLMs<d-cite key="riveland2024natural"></d-cite>, which demonstrated that models 
-                        can excel at linguistic instructing tasks by recombining previously learned components, without task-specific experience.</li>
-                </ul>
-            </p>
-
-        </div>
-
-
-        <hr>
-
-        <div id="id_and_ood" class="section">
-            <h1 class="text">In-Distribution and Out-of-Distribution Generalization</h1>
-
-            <p class="text">
-                We focus on deterministic tasks governed by basic kinematic equations, as they allow clear definitions of ID/OOD and straightforward quantitative error evaluation.
-            </p>
-
-            <h5 class="text">Fundamental Physical Scenarios</h5>
-
-            <d-figure id="fig-data_demo">
-                <figure style="text-align: center;">
-                    <video  poster="" autoplay controls muted loop playsinline width="100%">
-                        <source src="static/video/demo_1x6.mp4" type="video/mp4">
-                    </video>
-                    <figcaption>
-                        <strong>Figure 2:</strong> Video visualization. From left to right: uniform linear motion, perfectly elastic collision and parabolic motion.
-                    </figcaption>
-                </figure>
-            </d-figure>
-
-            <ul class="text">
-                <li>
-                    Uniform Linear Motion: A ball moves horizontally with a constant velocity. This is used to illustrate the <i>law of Inertia</i>. 
-                </li>
-                <li>
-                    Perfectly Elastic Collision: Two balls with different sizes and speeds move horizontally toward each other and collide. The underlying physical law is 
-                    <i>the conservation of energy and momentum</i>. 
-                </li>
-                <li>
-                    Parabolic Motion: A ball with a initial horizontal velocity falls due to gravity. This represents <i>Newton's second law of motion</i>. Each motion is determined by its initial frames. 
-                </li>
-            </ul>
-
-            <h5 class="text">Results of Scaling the Data and Model</h5>
-
-            <p class="text">
-                
-                <d-figure id="fig-scaling_idood">
-                    <figure style="text-align: center;">
-                        <img data-zoomable="" draggable="false" src="static/image/scaling_combined.png" alt="benchmark category" style="width: 100%">
-                        <figcaption>
-                            <strong>Figure 3:</strong> The error in the velocity of balls between the ground truth state in the simulator and the values parsed
-                            from the generated video by the diffusion model, given the first 3 frames
-                        </figcaption>
-                    </figure>
-                </d-figure>
-                
-                <p class="text">
-                    <strong>In-Distribution (ID) Generalization</strong>. As in <a href="#fig-scaling_idood">Figure 3</a>, increasing the model size (DiT-S to DiT-L) or the data amount (30K to 3M) consistently 
-                    decreases the <i>velocity error</i> across all three tasks, strongly evidencing the importance of scaling for ID generalization. 
-                    Take the uniform motion task as an example: the DiT-S model has a velocity error of $0.022$ with 30K data, while DiT-L achieves an error of $0.012$ with 3M data, 
-                    very close to the error of $0.010$ obtained with ground truth video. 
-                </p>
-
-                <p class="text">
-                    <strong>Out-of-Distribution (OOD) Generalization</strong>. The results differ significantly.
-                    <ul class="text">
-                        <li><i><strong>First, OOD velocity errors are an order of magnitude higher than ID errors in all settings.</strong></i> 
-                        For example, the OOD error for the DiT-L model on uniform motion with 3M data is $0.427$, while the ID error is just $0.012$. </li>
-                        <li><i><strong>Second, scaling up the training data and model size has little or negative impact on reducing this prediction error.</strong></i> 
-                        The variation in velocity error is higly random as data or model size changes, <i>e.g.,</i>, the error for DiT-B on uniform 
-                        motion is $0.433$, $0.328$ and $0.358$, with data amounts of  30K, 300K and 3M. </li>
-                    </ul>
-                
-                    <p class="text">
-                        We also trained DiT-XL on the uniform motion 3M dataset but observed no improvement in OOD generalization.  As a result, we 
-                        did not pursue training of DiT-XL on other scenarios or datasets constrained by resources.
-                        These findings suggest the inability of scaling to perform reasoning in OOD scenarios. The sharp difference between ID and OOD 
-                        settings further motivates us to study the generalization mechanism of video generation in <a href="memo_vs_gen">Section 4.1</a>.
-                    </p>
-                </p>
-            </p>
-
-            <h5 class="text">Examples</h5>
-            <d-figure id="fig-simple_gen_cases">
-                <figure style="text-align: center;">
-                    <video  poster=""  id="ade" autoplay controls muted loop width="48%">
-                        <source src="static/video/simple_success_cases.mp4" type="video/mp4">
-                    </video>
-                    &nbsp;
-                    <video  poster=""  id="ade" autoplay controls muted loop width="48%">
-                        <source src="static/video/simple_failure_cases.mp4" type="video/mp4">
-                    </video>
-                    <figcaption>
-                        <strong>Figure 4:</strong> Generated example videos. The first row the is ground-truth video, while the second row is generated by our model.
-                         Left: successful cases from ID generalization. Right: failure cases from OOD generalization.
-                    </figcaption>
-                </figure>
-            </d-figure>
-
-        </div>
-
-        <hr>
-
-
-        <div id="combo_gen" class="section">
-            <h1 class="text">Combinatorial Generalization</h1>
-
-            <p class="text">
-                It is understandable that video generation models failed to reason in OOD scenarios, since it is very difficult for humans 
-                to derive precise physical laws from data. 
-                For example, it took scientists centuries to formulate Newton's three laws of motion.
-                However, even a child can intuitively predict outcomes in everyday situations by combining elements from past experiences. 
-                In this section, we evaluate the combinatorial generalization abilities of diffusion-based video models.
-            </p>
-
-            <h5 class="text">Combinatorial Physical Scenarios</h5>
-            <d-figure id="fig-phyre_demo">
-                <figure style="text-align: center;">
-                    <video  poster=""  id="ade" autoplay controls muted loop width="75%">
-                        <source src="static/video/phyre_demo_2x4.mp4" type="video/mp4">
-                    </video>
-                    <figcaption>
-                        <strong>Figure 5:</strong> Downsampled video visualization. The arrow indicates the progression of time.
-                    </figcaption>
-                </figure>
-            </d-figure>
-                                <!-- <img data-zoomable="" draggable="false" src="static/image/phyre_demo.png" alt="benchmark category" style="width: 50%"> -->
-
-
-            <p class="text">
-                <strong>Environment and task</strong>&nbsp; We selected the PHYRE simulator<d-cite key="bakhtin2019phyre"></d-cite> as our testbed—a 2D environment involves 
-                multiple objects to free fall then collide with each other, forming complex physical interactions. 
-                It features diverse object types, including balls, jars, bars, and walls, which can be either fixed or dynamic. 
-                This enables complex interactions such as collisions, parabolic trajectories, rotations, and friction to occur simultaneously within a video.
-                Despite this complexity, the underlying physical laws are deterministic, allowing the model to learn the laws and predict unseen scenarios.
-
-                <br><br>
-                <strong>Data</strong>&nbsp; There are eight types of objects considered, including two dynamic gray balls, a group of fixed black balls, a fixed black bar, a dynamic bar, a group of dynamic standing bars, a dynamic jar, and a dynamic standing stick. 
-                Each task contains one red ball and four randomly chonsen objects from the eight types, resulting in \( C^4_8 = 70 \) unique templates. See <a href="#fig-phyre_demo">Figure 5</a> for examples. 
-                For each training template, we reserve a small set of videos to create the <i>in-template</i> evaluation set. Additionally, 10 unused templates are reserved for the <i>out-of-template</i> evaluation set to assess the model’s ability to generalize to new combinations not seen during training.
-
-                <br><br>
-                <strong>Model</strong> Given the complexity of the task, we adopt the 256$\times$256 resolution and train the model for more iterations (1 million steps).
-                    Consequently, we are unable to conduct a comprehensive sweep of all data and model size combinations as before. Therefore, we mainly focus on the largest model,
-                    DiT-XL, to study data scaling behaviour for combinatorial generalization.
-            </p>
-
-            <h5 class="text">Results of Scaling the Data and Model</h5>
-
-            <p class="text">
-                <div id="tab:data_ratio_result" style="display: flex; flex-direction: column; align-items: center; text-align: center;"></div>
-                    <div class="table-container">
-                        <table class="data-table">
-                            <thead>
-                                <tr>
-                                    <th style="text-align: center;">Model</th>
-                                    <th style="text-align: center;">#Template</th>
-                                    <th style="text-align: center;">FVD(&darr;)</th>
-                                    <th style="text-align: center;">SSIM(&uarr;)</th>
-                                    <th style="text-align: center;">PSNR(&uarr;)</th>
-                                    <th style="text-align: center;">LPIPS(&darr;)</th>
-                                    <th style="text-align: center;">Abnormal Ratio(&darr;)</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>DiT-XL</td>
-                                    <td>6</td>
-                                    <td>18.2 / 22.1</td>
-                                    <td><strong>0.973</strong> / 0.943</td>
-                                    <td><strong>32.8</strong> / 25.5</td>
-                                    <td><strong>0.028</strong> / 0.082</td>
-                                    <td>3% / 67%</td>
-                                </tr>
-                                <tr>
-                                    <td>DiT-XL</td>
-                                    <td>30</td>
-                                    <td>19.5 / 19.7</td>
-                                    <td>0.973 / 0.950</td>
-                                    <td>32.7 / 27.1</td>
-                                    <td>0.028 / 0.065</td>
-                                    <td>3% / 18%</td>
-                                </tr>
-                                <tr>
-                                    <td>DiT-XL</td>
-                                    <td>60</td>
-                                    <td class="highlight">17.6 / 18.7</td>
-                                    <td class="highlight">0.972 / 0.951</td>
-                                    <td class="highlight">32.4 / 27.3</td>
-                                    <td class="highlight">0.035 / 0.062</td>
-                                    <td class="highlight">2% / 10%</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                      </div>
-                    <figcaption style="text-align: center; width: 100%;">
-                        Table 1: Combinatorial generalization results. The results are presented in the format of <i>{in-template result} / {out-of-template result}.</i>
-                    </figcaption>
-                </div>
-            </p>
-
-            <p class="text">
-                    
-                As shown in <a href="tab:data_ratio_result">Table 1</a>, when the number of templates increases from 6 to 60, all metrics improve on the out-of-template testing sets.
-                Notably, the abnormal rate for human evaluation significantly reduces from 67% to 10%. Conversely, the model trained with 
-                6 templates achieves the best SSIM, PSNR, and LPIPS scores on the in-template testing set. This can be explained by the 
-                fact that each training example in the 6-template set is exposed ten times more frequently than those in the 60-template set,
-                allowing it to better fit the in-template tasks associated with template 6.
-               Furthermore, we conducted an additional experiment using a DiT-B model on the full 60 templates to verify the importance of model scaling.
-               As expected, the abnormal rate increases to 24%. These results suggest that both model capacity and coverage of the combination space are 
-               crucial for combinatorial generalization. This insight implies that scaling laws for video generation should focus on increasing combination diversity,
-                rather than merely scaling up data volume. 
-           </p>
-
-            <p class="text"><strong>Examples</strong></p>
-            <d-figure id="fig-phyre_gen_cases">
-                <figure style="text-align: center;">
-                    <video  poster=""  id="ade" autoplay controls muted loop width="100%">
-                        <source src="static/video/phyre_scene_concat_case1.mp4" type="video/mp4">
-                    </video>
-                    <figcaption>
-                        <strong>Figure 6:</strong> Generated sample videos. First row: ground gruth. Second Row: the model learned with 60 templates.
-                        Thrid row: the model learned with 30 templates. Forth row: the model learned with 6 templates.
-                    </figcaption>
-                </figure>
-            </d-figure>
-        </div>
-
-        <hr>
-
-        <div id="analysis" class="section">
-            <h1 class="text">Analysis on The Generalization Behaviour</h1>
-
-        </div>
-        <div id="inter_and_extra" class="section">
         
-            <h2 class="text">Understanding Generalization from Interpolation and Extrapolation</h2>
-
-
-            <p class="text">
-                The generalization ability of a model roots from its interpolation and extrapolation capability<d-cite key="xu2020neural,balestriero2021learning"></d-cite>.
-                Therefore, we design experiments to explore the limits of these abilities for a video generation model. 
-                
-                <br><br>
-                <strong>Experimental Design</strong>&nbsp; We design datasets which delibrately leave out some latent values, i.e. velocity. After training, we test model's 
-                prediction on both seen and unseen scenarios. We mainly focus on uniform motion and collision processes. For uniform motion, 
-                we create a series of training sets, where a certain range of velocity is absent. For collsion, it has multiple variables. 
-                we exclude one or more square regions from the training set of initial velocities for two balls and then assess the velocity prediction error after the collision.
-                <br><br>
-
-            </p>
-
-            <d-figure id="fig-uniform_motion_squareout">
-                <figure style="text-align: center;">
-                    <img data-zoomable="" draggable="false" src="static/image/uniform_motion_square_out_totalv2.png" alt="benchmark category" style="width: 100%">
-                    <figcaption>
-                        <strong>Figure 7:</strong> Uniform motion video generation. Models are trained on datasets with a missing middle velocity range.  
-                        For example, in the first figure, training velocities cover \( [1.0, 1.25] \) and \( [3.75, 4.0] \), excluding the middle range.  
-                        When evaluated with velocity condition from the missing range \( [1.25, 3.75] \), the generated velocity tends to shift away from the initial condition, breaking the Law of Inertia.
-                    </figcaption>
-                </figure>
-            </d-figure>
-
-
-            <p class="text">
-                <strong>Uniform Motion</strong> 
-                As shown in <a href="#fig-uniform_motion_squareout">Figure 7</a>, the OOD accuracy is closely related to the size of gap.
-                The larger the gap, the larger the OOD error ((1)-(3)). When the gap is reduced, the model correctly interpolates for most of OOD data. 
-                Moreover, when part the missing range is reintroduced, the model exhibits strong interpolation abilities ((4)-(5)). 
-            </p>
-
-            <d-figure id="fig-collision_squareout"></d-figure>
-                <figure style="text-align: center;">
-                    <img data-zoomable="" draggable="false" src="static/image/collision_squareout.png" alt="benchmark category" style="width: 100%">
-                    <figcaption>
-                        <strong>Figure 8:</strong> Collision video generation. Models are trained on the <a style="color: wheat;">yellow</a> region and evaluated on data points in both the <a style="color: wheat;">yellow</a> (ID) and <a style="color: lightcoral;">red</a> (OOD) regions. When the OOD range is surrounded by the training region, the OOD generalization error remains relatively small and comparable to the ID error.                    </figcaption>
-                </figure>
-            </d-figure>
-
-            <p class="text">
-                <strong>Collision</strong>&nbsp;
-                As shown in <a href="#fig-collision_squareout">Figure 8</a>,
-                for the OOD velocity combinations that lie within the convex hull of the training set, <i>i.e.</i>, the internal red squares in the yellow region, 
-                the model generalizes well, even when the hole is very large ((3)). However, the model experiences large errors when the latent values lies in exterior space of training set's convex hull.
-
-            </p>
-
-            <p class="text">
-                <strong>Conclusion</strong>&nbsp;
-                <a style="color: red;">The model exhibits <strong><i>strong interpolation abilities</i></strong>, even when the data are extremely sparse. </a>
-            </p>
-        </div>
-
-        <div id="memo_vs_gen" class="section"></div>
-        
-            <h2 class="text">Memorization or Generalization</h2>
-
-
-            <p class="text">
-                Previous work<d-cite key="hu2024case"></d-cite> indicates that LLMs rely on memorization, reproducing training cases during inference instead of 
-                learning the underlying rules for tasks like addition arithmetic. We investigate whether video generation models display similar behaviour, memorizing data rather than understanding physical laws.
-
-                <br><br>
-                <strong>Experimental Design</strong>&nbsp;
-                We train our model on uniform motion videos with velocities \(v \in [2.5, 4.0]\), using the first three frames as input conditions. 
-                Two training sets are used:  <i>Set-1</i> only contains balls moving from left to right, while <i>Set-2</i> includes movement in 
-                both direction, by using horizontal flipping at training time. 
-                At evaluation, we focus on low-speed balls ($v\in[1.0, 2.5]$), which were not present in the training data.
-            </p>
-
-            <d-figure id="fig-case_based">
-                <figure style="text-align: center; vertical-align: center;">
-                    <img data-zoomable="" draggable="false" src="static/image/case-based1.png" alt="benchmark category" style="width: 40%">
-                    <figcaption>
-                        <strong>Figure 9:</strong> The example of uniform motion illustrating memorization.
-                    </figcaption>
-                </figure>
-            </d-figure>
-
-            <p class="text">
-                <strong>Results</strong>&nbsp;
-                As shown in <a href="#fig-case_based">Figure 9</a>, the <i>Set-1</i> model generates videos with only positive velocities, 
-                biased toward the high-speed range. In contrast, the <i>Set-2</i> model occasionally produces videos with negative velocities,
-                as highlighted by the green circle. For instance, a low-speed ball moving from left to right may suddenly reverse direction after
-                its condition frames. This could occur since the model identifies reversed training videos as the closest match for low-speed balls. 
-                <strong><i>
-                This distinction between the two models suggests that the video generation model is influenced by “deceptive” examples in the 
-                training data. Rather than abstracting universal rules, the model appears to rely on memorization, and case-based imitation for OOD 
-                generalization. 
-                </i></strong>
-            </p>
-
-            <h5 class="text">Examples</h5>
-            <d-figure id="fig-case_based_gen_samples">
-                <figure style="text-align: center; vertical-align: center;">
-                    <video  poster=""  id="ade" autoplay controls muted loop width="40%" >
-                        <source src="static/video/velocity_flip.mp4" type="video/mp4">
-                    </video>
-                    <figcaption>
-                        <strong>Figure 10:</strong> Generated example videos. The first row the is ground-truth video, while the second row is generated by our model.
-                        A low-velocity ball might reverse it direction right after its initial frames.
-                    </figcaption>
-                </figure>
-            </d-figure>
-        </div>
-
-        <div id="how_to_knn" class="section"></div>
-        
-            <h2 class="text">How Does Diffusion Model Retrieve Data?</h2>
-
-
-            <p class="text">
-                We aim to investigate the ways a video model performs <i>case matching</i>—identifying close training examples for a given input. 
-
-                <br><br>
-                <strong>Experimental Design</strong> We use <i>uniform linear motion</i> for this study. 
-                Specifically, we compare four attributes, <i>i.e.</i>, color, shape, size, and velocity, in a pairwise manner. 
-                In other words, <strong>we build an </strong>
-                Through comparisons, we seek to determine the model's preference for relying on specific attributes in case matching.
-
-                Every attribute has two disjoint sets of values. For each pair of attributes, there are four types of combinations. 
-                We use two combinations for training and the remaining two for testing.
-            </p>
-
-            <d-figure id="fig-pairwise_combo_vs_shape">
-                <figure style="text-align: center;">
-                    <img data-zoomable="" draggable="false" src="static/image/pairwise_combo_vs_shape.png" alt="benchmark category" style="width: 90%">
-                    <figcaption>
-                        <strong>Figure 11:</strong> Uniform motion. (1) Color <i>v.s.</i> shape, (2) Size <i>v.s.</i> shape, (3) Velocity <i>v.s.</i> shape.  
-                        The arrow $\Rightarrow$ signifies that the generated videos shift from their specified conditions to resemble similar training cases. For example, in the first figure, the model is trained on videos of blue balls and red squares. When conditioned with a blue ball, as shown in the bottom, it transforms into a blue square, i.e., mimicking the training case by color.
-                    </figcaption>
-                </figure>
-            </d-figure>
-
-            <d-figure id="fig-pk_examples">
-                <figure style="text-align: center;">
-                    <video  poster=""  id="ade" autoplay controls muted loop width="32%">
-                        <source src="static/video/samples_color_vs_shape.mp4" type="video/mp4">
-                    </video>
-                    &nbsp;
-                    <video  poster=""  id="ade" autoplay controls muted loop width="32%">
-                        <source src="static/video/samples_size_vs_shape.mp4" type="video/mp4">
-                    </video>
-                    &nbsp;
-                    <video  poster=""  id="ade" autoplay controls muted loop width="32%">
-                        <source src="static/video/samples_velocity_vs_shape.mp4" type="video/mp4">
-                    </video>
-                    <figcaption>
-                        <strong>Figure 12:</strong> Generated example videos. The first row the is ground-truth video, while the second row is generated by our model.
-                    </figcaption>
-                </figure>
-            </d-figure>
-
-            <p class="text">
-                <strong>Observation 1</strong>&nbsp; We first compare color, size and velocity against shape. For example, in <a href="fig-pairwise_combo_vs_shape">Figure 11</a> (1),
-                videos of red balls and blue squares with the same range of size and velocity are used for training.
-                 At test time, a blue ball changes shape into a square immediately after the condition frames, while a red square transforms into a ball.
-                Similar observations can be made for the other two settings. <i>This suggests that diffusion-based video models inherently favor other attributes over shape, 
-                which may explain why current open-set video generation models usually struggle with shape preservation.</i>
-            </p>
-
-            <d-figure id="fig-pairwise_combo_no_shape"></d-figure>
-                <figure style="text-align: center;">
-                    <img data-zoomable="" draggable="false" src="static/image/pairwise_combo_no_shape.png" alt="benchmark category" style="width: 100%">
-                    <figcaption>
-                        <strong>Figure 13:</strong> Uniform motion.  
-                        (1) Velocity <i>v.s.</i> size: The arrow $\rightarrow$ indicates the direction of generated videos shifting from their initial conditions.  
-                        (2) Color <i>v.s.</i> size: Models are trained with small red balls and large blue balls, and evaluated on reversed color-size pair conditions. All generated videos retain the initial color but show slight size shifts from the original.  
-                        (3) Color <i>v.s.</i> velocity: Models are trained with low-speed red balls and high-speed blue balls, and evaluated on reversed color-velocity pair conditions. All generated videos retain the initial color but show large velocity shifts from the original.
-                    </figcaption>
-                </figure>
-            </d-figure>
-            <p class="text">
-                <strong>Observation 2</strong>&nbsp; The other three pairs are presented in <a href="#fig-pairwise_combo_no_shape">Figure 13</a>.
-                For velocity <i>v.s.</i>  size, the combinatorial generalization performance is surprisingly good. 
-                The model effectively maintains the initial size and velocity for most test cases beyond the training distribution. 
-                However, a slight preference for size over velocity is noted, particularly with extreme radius and velocity values 
-                (top left and bottom right in subfigure (1)). 
-                In subfigure (2), color can be combined with size most of the time. 
-                Conversely, for color <i>v.s.</i>  velocity in subfigure (3), high-speed blue balls and low-speed red balls are used for training. 
-                At test time, low-speed blue balls appear much faster than their conditioned velocity. No ball in the testing set changes its color, 
-                indicating that color is prioritized over velocity. 
-
-                <br><br>
-                <strong>Conclusion</strong>&nbsp; Based on the above analysis, we conclude that <strong>prioritization order is as 
-                follows: color > size > velocity > shape</strong>.
-            </p>
-
-
-        </div>
-
-
-        <div id="how_to_combine" class="section"></div>
-        
-            <h2 class="text">How Does Complex Combinatorial Generalization Happen?</h2>
-
-
-            <p class="text">
-                What kind of data can actually enable conceptually-combinable video generation?  We try to answer this question by 
-                indentifing three foundamental combinatorial patterns through experimental design. 
-            </p>
-
-            <d-figure id="fig-spatial_and_temporal_combo">
-                <figure style="text-align: center;">
-                    <img data-zoomable="" draggable="false" src="static/image/spatial_and_temporal_combo.jpeg" alt="benchmark category" style="width: 90%">
-                    <figcaption>
-                        <strong>Figure 14:</strong> Spatial and temporal combinatorial generalization. The two subsets of the training set contain disjoint physical events. However, the trained model can combine these two types of events across spatial and temporal dimensions.
-                </figure>
-            </d-figure>
-
-
-            <p class="text">
-                <strong>Attribute composition</strong>&nbsp; As shown in <a href="#fig-pairwise_combo_no_shape">Figure 9</a> (1)-(2), 
-                certain attribute pairs—such as velocity and size, or color and size—exhibit some degree of combinatorial generalization.
-            </p>
-
-            <d-figure id="fig-spatial_temporal_combo">
-                <figure style="text-align: center;">
-                    <video  poster=""  id="ade" autoplay controls muted loop width="46%">
-                        <source src="static/video/combo_spatial.mp4" type="video/mp4">
-                    </video>
-                    &nbsp;
-                    <video  poster=""  id="ade" autoplay controls muted loop width="46%">
-                        <source src="static/video/combo_temporal.mp4" type="video/mp4">
-                    </video>
-                    <figcaption>
-                        <strong>Figure 15:</strong> Generated example videos. Left: Spatial combinatorial generalization. Right: Temporal combinatorial generalization.
-                    </figcaption>
-                </figure>
-            </d-figure>
-
-
-            <p class="text">
-                <strong>Spatial composition</strong>&nbsp;
-                As given by <a href="#fig-spatial_and_temporal_combo">Figure 14</a> (left side), the training data contains two distinct types of physical events. 
-                One type involves a blue square moving horizontally with a constant velocity while a red ball remains stationary. 
-                In contrast, the other type depicts a red ball moving toward and then bouncing off a wall while the blue square remains stationary. 
-                At test time, when the red ball and the blue square are moving simultaneously, the learned model is able to generate the scenario ]
-                where the red ball bounces off the wall while the blue square continues its uniform motion.
-
-        
-                <br><br>
-                <strong>Temporal composition</strong>&nbsp;
-                As illustrated on the right side of <a href="#fig-spatial_and_temporal_combo">Figure 14</a> , when the training data includes distinct physical 
-                events—half featuring two balls colliding without bouncing and the other half showing a red ball bouncing off a wall—the model learns to combine 
-                these events temporally. Consequently, during evaluation, when the balls collide near the wall, the model accurately predicts the collision and 
-                then determines that the blue ball will rebound off the wall with unchanged velocity.
-
-            </p>
-        </div>
-
-        <div id="visual_ambiguity" class="section"></div>
-        
-            <h2 class="text">Is Video Sufficient for Complete Physics Modeling?</h2>
-
-
-            <p class="text">
-                For a video generation model to function as a world model, the visual representation must provide sufficient information for complete physics modeling. 
-                In our experiments, we found that visual ambiguity leads to significant inaccuracies in fine-grained physics modeling. 
-                For example, in <a href="#fig-visual_ambiguity">Figure 16</a> , it is difficult to determine if a ball can pass through a gap based on vision alone when the size difference is at the pixel level, leading to visually plausible but incorrect results. Similarly, visual ambiguity in a ball’s horizontal position relative to a block can result in different outcomes.
-                These findings suggest that relying solely on visual representations, may be inadequate for accurate physics modeling.
-            </p>
-
-            <d-figure id="fig-visual_ambiguity">
-                <figure style="text-align: center;">
-                    <img data-zoomable="" draggable="false" src="static/image/ambiguity.png" alt="benchmark category" style="width: 100%">
-                    <figcaption>
-                        <strong>Figure 16:</strong> First row: Ground truth; second row: generated video.  
-                        Ambiguities in visual representation result in inaccuracies in fine-grained physics modeling. 
-                    </figcaption>
-                </figure>
-            </d-figure>
-
-            <d-figure id="fig-visual_ambiguity_video">
-                <figure style="text-align: center;">
-                    <video  poster=""  id="ade" autoplay controls muted loop width="30%">
-                        <source src="static/video/visual_ambiguity.mp4" type="video/mp4">
-                    </video>
-                    <figcaption>
-                        <strong>Figure 17:</strong> Generated example videos for visual ambiguity. The first row the is ground-truth video, while the second row is generated by our model.
-                    </figcaption>
-                </figure>
-            </d-figure>
-
-        </div>
-
-        
-        <hr>
-        <div id="open_discussion" style="position: relative; margin-top: 40px; margin-bottom: 0px;">
-            <h1 class="text" style="margin-top:0px; margin-bottom:10px">Open Discussion</h1>
-
-            
-
-            <h2 class="text">Can Language or Numerical Internal States be Helpful in Physical Law Discovery? </h2>
-
-            <p class="text">
-            <strong>Experimental Setup</strong>&nbsp; We experimented with collision scenarios and DiT-B models, adding two variants: one conditioned on vision and numerics, and the other on vision and text. 
-            For numeric conditioning, we map the state vectors to embeddings and add the layer-wise features to video tokens. 
-            For text, we converted initial physical states into natural language descriptions, obtained text embeddings using a T5 encoder, 
-            and then add a cross-attention layer to aggregate textual representations for video tokens.
-            </p>
-
-            <d-figure id="fig-multimodal_scaling">
-                <figure style="text-align: center;">
-                    <img data-zoomable="" draggable="false" src="static/image/scaling_collision-multimodal.jpg" alt="benchmark category" style="width: 50%">
-                    <figcaption>
-                        <strong>Figure 18:</strong> First row: Ground truth; second row: generated video.  
-                        Ambiguities in visual representation result in inaccuracies in fine-grained physics modeling. 
-                    </figcaption>
-                </figure>
-            </d-figure>
-
-            <p class="text">
-                <strong>Results</strong>&nbsp; 
-                As shown in <a href="#fig-multimodal_scaling">Figure 18</a>, for in-distribution generalization, adding numeric and text conditions resulted in 
-                prediction errors comparable to using vision alone. However, in OOD scenarios, the vision-plus-numerics condition exhibited slightly higher errors,
-                while the vision-plus-language condition showed significantly higher errors. 
-                This suggests that visual frames already contain sufficient information for accurate predictions, and probobaly the best modality for generalization. 
-                However, the text knowledge in our setting is limited to the problem setting. Instead, large language models are often trained with large-scale corpus 
-                containing nearly all knowledge in human history. We'd like to triger a discussion on whether this kind of knowledge can be used to make the physical law discovery 
-                problem feasible. 
-                </p>
-
-            
-            <h2 class="text">Can the Generalization Preference be Harnessed or Not?</h2>
-
-            <p class="text">
-            <strong>Our hypothesis on why the preference exists</strong>&nbsp;
-            Since the diffusion model is trained by minimizing the loss associated with predicting VAE latent, we hypothesize that the prioritization may be related to the distance in VAE latent space (though we use pixel space here for clearer illustration) between the test conditions and the training set.
-            Intuitively, when comparing color and shape as in <a href="#fig-pairwise_combo_vs_shape">Figure 11</a> (1), a shape change from a ball to a rectangle results in minor pixel variation, primarily at the corners. In contrast, a color change from blue to red causes a more significant pixel difference. Thus, the model tends to preserve color while allowing shape to vary.
-            From the perspective of pixel variation, the prioritization of color > size > velocity > shape can be explained by the extent of pixel change associated with each attribute. 
-            Changes in color typically result in large pixel variations because it affects nearly every pixel across its surface. In contrast, changes in size modify the number of pixels but do not drastically alter the individual pixels' values. Velocity affects pixel positions over time, leading to moderate variation as the object shifts, while shape changes often involve only localized pixel adjustments, such as at edges or corners. Therefore, the model prioritizes color because it causes the most significant pixel changes, while shape changes are less impactful in terms of pixel variation.
-
-            <br>
-            <strong>Experimental Setup</strong>&nbsp;
-            To further validate this hypothesis, we designed a variant experiment comparing color and shape, as shown in <a href="#fig-pairwise_combo_vs_shape">Figure 19</a>. In this case, we use a blue ball and a red ring. 
-            For the ring to transform into the ball without changing color, it would need to remove the ring's external color, turning it into blank space, and then fill the internal blank space with the ball's color, resulting in significant pixel variation.
-
-            </p>
-
-            <d-figure id="fig-ring_color_vs_shape">
-                <figure style="text-align: center;">
-                    <img data-zoomable="" draggable="false" src="static/image/ring_color_vs_shape.jpg" alt="benchmark category" style="width: 70%">
-                    <figcaption>
-                        <strong>Figure 19:</strong> First row: Ground truth; second row: generated video.  
-                        Ambiguities in visual representation result in inaccuracies in fine-grained physics modeling. 
-                    </figcaption>
-                </figure>
-            </d-figure>
-
-            <p class="text">
-                <strong>Results</strong>&nbsp; 
-                Interestingly, in this scenario, unlike the previous experiments shown in <a href="#fig-pairwise_combo_vs_shape">Figure 11</a>  (1), the prioritization of color > shape does not hold. The red ring can transform into either a red ball or a blue ring, as demonstrated by the examples. 
-This observation suggests that the model's prioritization may indeed depend on the complexity of the pixel transformations required for each attribute change. Future work could explore more precise measurements of these variations in pixel or VAE latent space to better understand the model's training data retrieval process.
-            </p>
-
-
-
-        </div>
-
-
-
-
-        <hr>
-
-        <div id="additional_samples" style="position: relative; margin-top: 40px; margin-bottom: 0px;">
-            <h1 class="text" style="margin-top:0px; margin-bottom:10px">Additional Ssamples</h1>
-
-            <h2 class="text">Combinatorial Generalization Examples</h2>
-            <h5 class="text">More examples</h5>
-            <d-figure id="fig-phyre_demo">
-                <figure style="text-align: center;">
-                    <video  poster=""  id="ade" autoplay controls muted loop width="100%">
-                        <source src="static/video/phyre_scene_concat_case2.mp4" type="video/mp4">
-                    </video>
-                    <video  poster=""  id="ade" autoplay controls muted loop width="100%">
-                        <source src="static/video/phyre_scene_concat_case3.mp4" type="video/mp4">
-                    </video>
-                    <figcaption>
-                        <strong>Figure 20:</strong> Generated sample videos. First row: ground gruth. Second Row: the model learned with 60 templates.
-                        Thrid row: the model learned with 30 templates. Forth row: the model learned with 6 templates.
-                    </figcaption>
-                </figure>
-            </d-figure>
-
-            <h5 class="text">Three Types of Generated  Videos.</h5>
-            <p class="text">
-            We observe three types of generated videos in terms of how accruate the physical event is. <strong>Type 1</strong>: The generated videos are 
-            visually similar or identical to the ground-truth video from physical simulation.  <strong>Type 2</strong>: The generated videos are different from 
-            ground-truth videos but human eyes feel it is reasonable (not breaking any physical laws).  <strong> Type 3</strong>: A person can easily tell the video is wrong. 
-            </p>
-            <d-figure id="fig-phyre_demo">
-                <figure style="text-align: center;">
-                    <video  poster=""  id="ade" autoplay controls muted loop width="100%">
-                        <source src="static/video/phyre_xl60_accurate.mp4" type="video/mp4">
-                    </video>
-                    <figcaption>
-                        <strong>Figure 21:</strong>  Type 1 examples. 
-                    </figcaption>
-                </figure>
-            </d-figure>
-            <d-figure id="fig-phyre_demo">
-                <figure style="text-align: center;">
-                    <video  poster=""  id="ade" autoplay controls muted loop width="100%">
-                        <source src="static/video/phyre_xl60_inaccurate.mp4" type="video/mp4">
-                    </video>
-                    <figcaption>
-                        <strong>Figure 22:</strong> Type 2 examples.
-                    </figcaption>
-                </figure>
-            </d-figure>
-            <d-figure id="fig-phyre_demo">
-                <figure style="text-align: center;">
-                    <video  poster=""  id="ade" autoplay controls muted loop width="100%">
-                        <source src="static/video/phyre_xl60_fail.mp4" type="video/mp4">
-                    </video>
-                    <figcaption>
-                        <strong>Figure 23:</strong> Type 3 examples.
-                    </figcaption>
-                </figure>
-            </d-figure>
-
-            <p class="text">
-                
-            </p>
-        </div>
 
         </d-article>
         <d-appendix>
