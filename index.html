@@ -20,9 +20,15 @@
         <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
         <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
         <script>
-            MathJax = {
+            window.MathJax = {
                 tex: {
-                    inlineMath: [['$', '$']]
+                    inlineMath: [['$', '$'], ['\\(', '\\)']],
+                    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                    processEscapes: true,
+                    processEnvironments: true
+                },
+                options: {
+                    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
                 }
             };
         </script>
@@ -341,7 +347,7 @@
             </d-figure>
             
             <p class="text">
-                In this section, we introduce LangBridge, a novel adapter that translates visual features into the language model's embedding space based on the Language Basis Vector Projection Theory. Our key insight is to decompose visual features into linear combinations of the LLM's vocabulary embeddings, enabling seamless integration with different LLM architectures. First, we present the core architecture of LangBridge (Section 3.1), which operates by extracting visual features from images and projecting them into probability distributions over the LLM's vocabulary space. These distributions are then used to construct visual tokens as weighted combinations of text embeddings. Finally, we explain how the pretrained LangBridge can be seamlessly reused across different LLM architectures without retraining (<a href="#pretraining_free">Section 3.2</a>).
+                In this section, we introduce LangBridge, a novel adapter that translates visual features into the language model's embedding space based on the Language Basis Vector Projection Theory. Our key insight is to decompose visual features into linear combinations of the LLM's vocabulary embeddings, enabling seamless integration with different LLM architectures. First, we present the core architecture of LangBridge (<a href="#novel_adapter">Novel Adapter</a>), which operates by extracting visual features from images and projecting them into probability distributions over the LLM's vocabulary space. These distributions are then used to construct visual tokens as weighted combinations of text embeddings. Finally, we explain how the pretrained LangBridge can be seamlessly reused across different LLM architectures without retraining (<a href="#pretraining_free">Pretraining-Free Transfer</a>).
             </p>
             
             <h2 id="novel_adapter" class="text">Novel Adapter</h2>
@@ -350,28 +356,28 @@
                 framework operates through three stages: </p>
             <p class="text"> <strong>Stage 1: Visual Feature Extraction.</strong><br> 
                 Given an input image \(\mathcal{I} \in \mathbb{R}^{H \times W \times 3}\), we employ a Vision Transformer to extract patch-aligned visual features: 
-                \[\{v_i\}_{i=1}^N = \text{ViT}(\mathcal{I}), \quad v_i \in \mathbb{R}^D \tag{1}\] 
+                $$\{\mathbf{v}_i\}_{i=1}^N = \mathrm{ViT}(\mathcal{I}), \quad \mathbf{v}_i \in \mathbb{R}^D \tag{1}$$ 
                 where \(N = \frac{HW}{P^2}\) denotes the number of image patches with patch size \(P\). 
             </p>
             <p class="text"> <strong>Stage 2: Probability Computation.</strong><br> 
                 After acquiring the visual features, we transform them into visual tokens and align them with the LLM's text embedding space. This process is carried out by
                 decomposing the visual features into linear combinations of the LLM's vocabulary embeddings. We first apply a two-layer MLP to project the visual features into the LLM's text embedding
                 space. Let \(\mathbf{v}\) represent the visual feature. The projection is given by: 
-                \[\mathbf{v}_{\text{proj}} = \text{MLP}(\mathbf{v}) \tag{2}\] 
-                where \(\mathbf{v}_{\text{proj}} \in \mathbb{R}^D\), and \(D\) is the dimensionality of
+                $$\mathbf{v}_{\mathrm{proj}} = \mathrm{MLP}(\mathbf{v}) \tag{2}$$
+                where \(\mathbf{v}_{\mathrm{proj}} \in \mathbb{R}^D\), and \(D\) is the dimensionality of
                 the text embeddings. Next, we append a linear layer \(\mathbf{W} \in \mathbb{R}^{T \times D}\), where \(T\) is the
                 vocabulary size of the LLM, to produce the probability distribution \(\mathbf{p}\), matching the LLM's vocab size:
-                \[\mathbf{p} = \mathbf{W} \cdot \text{MLP}(\mathbf{v}) \tag{3}\]
+                $$\mathbf{p} = \mathbf{W} \cdot \mathrm{MLP}(\mathbf{v}) \tag{3}$$
             </p>
             <p class="text"> <strong>Stage 3: Linear Combination of Text Embeddings.</strong><br> 
                 Once we have the probability distribution \(\mathbf{p}\) from Equation (3), the visual features are represented as a weighted combination of the LLM's
                 text embeddings. The probability distribution \(\mathbf{p}\) serves as the coefficients for a linear combination of
                 the LLM's vocabulary embeddings \(\mathbf{e}_i\), where each \(\mathbf{e}_i \in \mathbb{R}^D\) is a text embedding of the
-                \(i\)-th token in the vocabulary. Specifically, the visual tokens \(\mathbf{v}_{\text{tokens}}\) are obtained as
+                \(i\)-th token in the vocabulary. Specifically, the visual tokens \(\mathbf{v}_{\mathrm{tokens}}\) are obtained as
                 follows: 
-                \[\mathbf{v}_{\text{tokens}} = \sum_{i=1}^T p_i \mathbf{e}_i \tag{4}\] 
+                $$\mathbf{v}_{\mathrm{tokens}} = \sum_{i=1}^T p_i \mathbf{e}_i \tag{4}$$ 
                 where \(p_i\) is the \(i\)-th component of the probability distribution \(\mathbf{p}\), and \(T\) is the vocabulary size of the LLM. 
-                The resulting vector \(\mathbf{v}_{\text{tokens}} \in \mathbb{R}^D\) represents the final visual token, which aligns with the LLM's text
+                The resulting vector \(\mathbf{v}_{\mathrm{tokens}} \in \mathbb{R}^D\) represents the final visual token, which aligns with the LLM's text
                 embedding space. 
             </p>
 
@@ -387,16 +393,16 @@
 
             <p class="text">
                 <strong>Stage 2: SFT.</strong><br>
-                When constructing a LVLM based on the new LLM-2, we do not need to retrain LangBridge in stage 1. Instead, we can directly reuse the adapters that were co-trained with LLM-1 in stage 1. The core principle behind this is that LangBridge only needs to output the probability distributions over the corresponding vocab instead of direct transform. When reusing LangBridge with different LLMs, such as Qwen2-0.5B and LLaMA3-8B, the key difficulty lies in the vocabulary (due to differences in vocabulary size). To enable reuse across different LLMs, as described in <a href="#figure-2">Figure 2</a>, we construct a shared vocabulary \(V_{shared}\). The reusing process can be expressed as:
+                When constructing a LVLM based on the new LLM-2, we do not need to retrain LangBridge in stage 1. Instead, we can directly reuse the adapters that were co-trained with LLM-1 in stage 1. The core principle behind this is that LangBridge only needs to output the probability distributions over the corresponding vocab instead of direct transform. When reusing LangBridge with different LLMs, such as Qwen2-0.5B and LLaMA3-8B, the key difficulty lies in the vocabulary (due to differences in vocabulary size). To enable reuse across different LLMs, as described in <a href="#figure-2">Figure 2</a>, we construct a shared vocabulary \(V_{\mathrm{shared}}\). The reusing process can be expressed as:
             </p>
 
             <p class="text" style="text-align: center;">
-                \[P = \text{LangBridge}_{\text{LLM}_1}(I) \in \mathbb{R}^{|V_{\text{shared}}|}\]
-                \[\text{Visiontoken}_{\text{LLM}2} = P \cdot V_{\text{shared}}\]
+                $$P = \mathrm{LangBridge}_{\mathrm{LLM}_1}(I) \in \mathbb{R}^{|V_{\mathrm{shared}}|} \tag{5}$$
+                $$\mathrm{Visiontoken}_{\mathrm{LLM}_2} = P \cdot V_{\mathrm{shared}} \tag{6}$$
             </p>
 
             <p class="text">
-                Here, \(P\) represents the probability distribution over the shared vocabulary \(V_{\text{shared}}\). The operation \(P \cdot V_{\text{shared}}\) projects this distribution onto \(\text{LLM-2}\)'s vocabulary, resulting in the vision token \(\text{Visiontoken}_{\text{LLM-2}}\), which is then sent to \(\text{LLM-2}\) for processing.
+                Here, \(P\) represents the probability distribution over the shared vocabulary \(V_{\mathrm{shared}}\). The operation \(P \cdot V_{\mathrm{shared}}\) projects this distribution onto LLM-2's vocabulary, resulting in the vision token \(\mathrm{Visiontoken}_{\mathrm{LLM-2}}\), which is then sent to LLM-2 for processing.
             </p>
 
         </div>
