@@ -1,17 +1,17 @@
 <!doctype html>
 <html lang="en">
     <head>
-        <title>How Far is Video Generation from World Model: A Physical Law Perspective</title>
+        <title>LangBridge: Interpreting Image as a Combination of Language Embeddings</title>
 
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <!-- Open Graph -->
-        <meta property="og:url" content="https://phyworld.github.io/" />
+        <meta property="og:url" content="https://LangBridge.github.io/" />
         <!-- TODO: Modify it later -->
-        <meta property="og:image" content="https://phyworld.github.io/static/img/preview.png" />
-        <meta property="og:title" content="How Far is Video Generation from World Model: A Physical Law Perspective" />
-        <meta property="og:description" content="We conduct a systematic study to investigate whether video generation is able to learn physical laws from videos, leveraging data and model scaling." />
+        <meta property="og:image" content="https://LangBridge.github.io/static/image/LangBridge_icon.jpg" />
+        <meta property="og:title" content="LangBridge: Interpreting Image as a Combination of Language Embeddings" />
+        <meta property="og:description" content="We propose LangBridge, an interpretable vision-language adapter that grounds visual semantics in LLM language priors through linear combinations of vocabulary embeddings." />
 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
         <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.js" integrity="sha384-9Nhn55MVVN0/4OFx7EE5kpFBPsEMZxKTCnA+4fqDmg12eCTqGi6+BB2LjY8brQxJ" crossorigin="anonymous"></script>
@@ -141,7 +141,7 @@
                         <h2 style="margin-top: 0px; font-size: xx-large;">of Language Embeddings</h2>
                         <h2 style="margin-top: 0px"><i>&mdash; A Novel Adapter for Vision-Language Alignment</i></h2>
                         <p>
-                            We propose LangBridge, an interpretable vision-language adapter that grounds visual semantics in LLM language priors through linear combinations of vocabulary embeddings. Our contributions can be summarized as follows:
+                            We propose LangBridge, a novel adapter that explicitly maps visual tokens to linear combinations of LLM vocabulary embeddings.  Our contributions can be summarized as follows:
                         </p>
                         <div class="contributions">
                             <div class="contribution-item">
@@ -161,25 +161,25 @@
 
     
                         <div class="button-container", style="text-align: center;">
-                            <a href="https://arxiv.org/abs/[YourPaperID]" class="button paper-link" target="_blank">
+                            <a href="https://arxiv.org/abs/2503.19404" class="button paper-link" target="_blank">
                                 <span class="icon is-small">
                                     <i class="ai ai-arxiv"></i>
                                 </span>
                                 arXiv
                             </a>
-                            <a href="https://arxiv.org/pdf/[YourPaperID].pdf" class="button paper-link" target="_blank">
+                            <a href="https://arxiv.org/pdf/2503.19404.pdf" class="button paper-link" target="_blank">
                                 <span class="icon is-small">
                                     <i class="fas fa-file-pdf"></i>
                                 </span>
                                 <span>PDF</span>
                             </a>
-                            <a href="https://github.com/OpenGVLab/LangBridge" class="button" target="_blank">
+                            <a href="https://github.com/JiaqiLiao77/LangBridge" class="button" target="_blank">
                                 <span class="icon is-small">
                                     <i class="fab fa-github"></i>
                                 </span>
                                 <span>Code</span>
                             </a>
-                            <a href="https://huggingface.co/datasets/OpenGVLab/LLaVA-CC3M-Pretrain" class="button" target="_blank">
+                            <a class="button" target="_blank">
                                 <span class="icon is-small">
                                     <img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" alt="Hugging Face" style="height: 1em;">
                                 </span>
@@ -267,7 +267,7 @@
 
         <p class="text abstract" style="margin-top: 3%;">
             <span style="color: blue;"><strong>Contribution</strong></span><br>
-            We propose LangBridge, an interpretable vision-language adapter that grounds visual semantics in LLM language priors through linear combinations of vocabulary embeddings. Our contributions can be summarized as follows:
+            We propose LangBridge, a novel adapter that explicitly maps visual tokens to linear combinations of LLM vocabulary embeddings. Our contributions can be summarized as follows:
             <ul class="text" style="margin-top: 0%; padding-left: 10%;">
                 <li style="margin-bottom: 0;">1. <a href="#explainable_analysis"><strong>Explainable Analysis for Visual-Language Alignment</strong></a>: We first investigate the working principles of MLP adapters and discover that they learn to project visual embeddings into subspaces spanned by corresponding text embeddings progressively.</li>
                 <li style="margin-bottom: 0;">2. <a href="#novel_adapter"><strong>Novel Adapter</strong></a>: Based on this insight, we propose LangBridge, a novel adapter that explicitly maps visual tokens to linear combinations of LLM vocabulary embeddings.</li>
@@ -277,7 +277,7 @@
 
         <p class="text abstract" style="margin-top: 3%;">
             <span style="color: blue;"><strong><a href="#validation">Validation</a></strong></span><br>
-            Our experimental results demonstrate that a LangBridge adapter pre-trained on Qwen2-0.5B can be directly applied to larger models such as LLaMA3-8B or Qwen2.5-14B with minimal performance degradation. Overall, LangBridge enables interpretable vision-language alignment by grounding visual semantics in LLM language priors, while its plug-and-play design ensures efficient reuse across multiple LLMs with minimal performance loss.
+            Our experimental results demonstrate that a LangBridge adapter pre-trained on Qwen2-0.5B can be directly applied to larger models such as LLaMA3-8B or Qwen2.5-14B with minimal performance degradation. Overall, LangBridge enables interpretable vision-language alignment by grounding visual semantics in LLM language priors, while its plug-and-play design ensures efficient reuse across multiple LLMs while maintaining competitive performance.
         </p>
 
         <div id="explainable_analysis" class="section">
@@ -716,12 +716,12 @@
         <d-appendix>
             <h3>BibTeX</h3>
             <p class="bibtex">
-                @article{kang2024how,<br>
+                <!-- @article{kang2024how,<br>
                 &nbsp;&nbsp;title={How Far is Video Generation from World Model? -- A Physical Law Perspective},<br>
                 &nbsp;&nbsp;author={Kang, Bingyi and Yue, Yang and Lu, Rui and Lin, Zhijie and Zhao, Yang, and Wang, Kaixin and Huang, Gao and Feng, Jiashi},<br>
                 &nbsp;&nbsp;journal={arXiv preprint arXiv:2411.02385},<br>
                 &nbsp;&nbsp;year={2024}<br>
-                }
+                } -->
             </p>
 
             <d-footnote-list></d-footnote-list>
